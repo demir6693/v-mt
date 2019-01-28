@@ -3,21 +3,48 @@
         <div class="row">
 
             <div class="col-sm border-right my-col-sm">
-                    <i class="fas fa-map-marker-alt fa-3x"></i>
-                    <p>Novi Pazar 36300</p>
-                    <p>Ulica Stevana Nemanje 54</p>
+                <br>
+                
+                <p>
+                    <strong>Novi Pazar, 36300</strong>
+                </p> 
+
+                <p>
+                   <i class="fas fa-map-marker-alt"></i>
+                    Ulica Stevana Nemanje br. 44
+                </p>
+                
+                <p>
+                    <i class="far fa-clock"></i>
+                    08-21h, nedeljom 09-16h 
+                </p>
+
+                <p>
+                    <i class="fas fa-phone"></i>
+                    +381 20 602 381
+                </p>
+
+                <p>
+                    <i class="far fa-envelope"></i>
+                    office@mobiletown.rs
+                </p>
             </div>
 
             <div class="col-sm border-right my-col-sm">
-                <p>Radno vreme:</p>
-                <p>08:00 - 21:00</p>
-                <p>Nedeljom: 09:00 - 16:00</p>
+                <br>
+                <p>
+                    <strong>Posetite nas na društvenim mrežama</strong>
+                </p>
+                
+                <a class="nav-link" href="https://www.facebook.com/mobiletown2013/"><i class="fab fa-facebook fa-2x"></i></a>
+
+
+                <a class="nav-link" href="https://www.instagram.com/mobile_town/"><i class="fab fa-instagram fa-2x"></i></a>
             </div>
 
             <div class="col-sm my-col-sm">
-                <p>Kontakt:</p>
-                <p>Email: office@mobiletown.rs</p>
-                <p>+381 20 602 381</p>
+                <br>
+                <router-link to="/"><a class="navbar-brand"><img src="./assets/lg_new.png" alt=""></a></router-link>
             </div>
 
         </div>

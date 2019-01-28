@@ -24,18 +24,19 @@
 
             <div class="collapse navbar-collapse" id="navbarColor02" wfd-id="433">
                 <ul class="navbar-nav ml-auto" wfd-id="435">
-                <li class="nav-item" wfd-id="439">
-                    <a class="nav-link" href="#">Lokacija</a>
+                <li class="nav-item" wfd-id="438">
+                    <router-link to="/lokacija-kontakt"><a class="nav-link">Kontakt/Lokacija</a></router-link>
+                    
                 </li>
                 <li class="nav-item border-left" wfd-id="438">
-                    <a class="nav-link" href="#">Kontakt</a>
+                    <router-link to="/o-nama"><a class="nav-link">O nama</a></router-link>
                 </li>
                 </ul>
             </div>
         </nav>
 
-        <nav class="navbar navbar-expand-lg navbar-dark nav-color">
-            <a class="navbar-brand" href="#"><img src="./assets/lg_new.png" alt=""></a>
+        <nav class="navbar navbar-expand-lg navbar-dark nav-color ">
+            <router-link to="/"><a class="navbar-brand"><img src="./assets/lg_new.png" alt=""></a></router-link>    
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" wfd-id="595">
                 <span class="navbar-toggler-icon" wfd-id="461"></span>
             </button>
@@ -93,6 +94,8 @@
 
 .nav-color {
     background-color: #145bcd;
+    border: 3px solid #c60100;
+    border-radius: 20px;
 }
 
 </style>
