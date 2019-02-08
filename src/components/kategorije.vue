@@ -4,9 +4,37 @@
         
         <hr>
 
+        <!-- filters -->
+
+        <div class="container container-filters d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
+            <!--
+                <button type="button" class="btn btn-primary btn-lg btn-block" wfd-id="560">Kategorije <i class="fas fa-caret-down"></i></button>
+             -->
+            <div class="dropdown">
+
+            <!--Trigger-->
+                <a class="btn btn-primary dropdown-toggle btn-lg btn-block" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Brend
+                </a>
+
+
+                <!--Menu-->
+                <div class="container dropdown-menu dropdown-primary" id="dropDownFilters">
+                    <a class="dropdown-item item-filters" href="#">Asus</a>
+                    <a class="dropdown-item item-filters" href="#">Acer</a>
+                    <a class="dropdown-item item-filters" href="#">Lenovo</a>
+                    <a class="dropdown-item item-filters" href="#">HP</a>
+                </div>
+            </div>  
+        </div>
+
+        <!-- Item on pc-->
+    <div class="d-none d-lg-block">
+
         <div class="row">
 
-            <div class="col-2 d-none d-lg-block">
+            <div class="col-2">
                 
                 <nav class="nav flex-column">
                     
@@ -48,19 +76,15 @@
 
                 <div class="col-8">
 
-                    <h5 class="d-none d-lg-block">Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400</h5>
-                    <h6 class="d-none d-md-block d-lg-none d-block d-sm-none d-none d-sm-block d-md-none">
-                        Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400
-                    </h6>
+                    <h5>Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400</h5>
+              
 
-                    <div class="row d-none d-lg-block">
+                    <div class="row">
                         
                         <div class="col-sm border-right">
                              Šifra artikla: <strong>8638307</strong>
-                        </div>
-                        
-                        <div class="col-sm">
-                            Model: <strong>Acer A315</strong>
+                             |
+                             Model: <strong>Acer A315</strong>
                         </div>
                      
                     </div>
@@ -69,7 +93,7 @@
 
                     <div class="row">       
                     
-                        <div class="col-8 d-none d-lg-block">
+                        <div class="col-8">
                             
                         <p class="my-p">
                             <strong>Procesor:</strong>
@@ -109,20 +133,49 @@
                             </p>
 
                             <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
-                        </div>
-                        
+                        </div>                   
                     </div>
-
                 </div>
+            </div>
+        </div>
+    </div>
 
+    </div>
+        
+
+    <!-- Item on mobile-tablet-->
+<div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
+    <div class="row my-col-item-mobile">
+        
+        <div class="col-4 border-bottom">
+            <img src="../assets/laptop.jpg" class="img-thumbnail " alt="...">
+        </div>
+
+        <div class="col-8">
+            
+            <div class="col">
+                <h6>
+                    Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400
+                </h6>
+            </div>
+
+            <div class="col col-cena">
+
+                <p>
+                    <strong>MP</strong>
+                    30.990 din.
+                </p>
+
+                <p class="my-pPrice">
+                    29.990 din.
+                </p>
             </div>
         </div>
 
-
-
-
-            </div>
-        </div>
+    </div>
+</div>
+    
+</div>
 
 </template>
 
@@ -132,6 +185,38 @@
 
 
 <style>
+
+.col-cena{
+    text-align: right;
+}
+
+.my-col-item-mobile{
+    background-color: white;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.item-filters{
+    color: white;
+    text-align: center;
+}
+
+#dropDownFilters{
+    background-color: #145bcd;
+}
+
+#dropdownMenu2{
+    color: white;
+}
+
+.container-filters{
+
+    text-align: center;
+    margin-bottom: 15px;
+}
 
 .img-thumbnail{
     border: none;
