@@ -4,47 +4,63 @@
         
         <hr>
 
-        <div class="row ">
+        <div class="row">
 
-            <div class="col-2">
+            <div class="col-2 d-none d-lg-block">
                 
-                <div class="kategorija">
-                    <a href=""><b class="my-b">Asus</b></a>
-                </div>
+                <nav class="nav flex-column">
+                    
+                    <a class="nav-link active" href="#">
+                        <div class="kategorija">
+                            <b class="my-b">Asus</b>
+                        </div>
+                    </a>
 
-                <div class="kategorija">
-                    <a href=""><b class="my-b">Acer</b></a>
-                </div>
-
-                <div class="kategorija">
-                    <a href=""><b class="my-b">Lenovo</b></a>
-                </div>
-
-                <div class="kategorija">
-                    <a href=""><b class="my-b">HP</b></a>
-                </div>
+                    <a class="nav-link" href="#">
+                        <div class="kategorija">
+                            <b class="my-b">Acer</b>
+                        </div>
+                    </a>
+                    
+                    <a class="nav-link" href="#">
+                        <div class="kategorija">
+                            <b class="my-b">Lenovo</b>
+                        </div>
+                    </a>
+                    
+                    <a class="nav-link disabled" href="#">
+                        <div class="kategorija">
+                            <b class="my-b">HP</b>
+                        </div>
+                    </a>
+                </nav>
 
             </div>
 
             <div class="col-10">
                 
-                <div>
+            
             <div class="row item border-bottom">
+                
                 <div class="col-4 divItem">
-                    <a href="" class="my-a"><img src="../assets/laptop.jpg" alt=""></a>
+                    <a href="" class="my-a"><img class="img-thumbnail" src="../assets/laptop.jpg" alt=""></a>
                 </div>
+
                 <div class="col-8">
 
-                    <h5>Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400</h5>
+                    <h5 class="d-none d-lg-block">Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400</h5>
+                    <h6 class="d-none d-md-block d-lg-none d-block d-sm-none d-none d-sm-block d-md-none">
+                        Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400
+                    </h6>
 
-                    <div class="row">
+                    <div class="row d-none d-lg-block">
                         
                         <div class="col-sm border-right">
-                            Šifra artikla: 8638307
+                             Šifra artikla: <strong>8638307</strong>
                         </div>
                         
                         <div class="col-sm">
-                            Model: Acer A315
+                            Model: <strong>Acer A315</strong>
                         </div>
                      
                     </div>
@@ -52,12 +68,12 @@
                     <hr>
 
                     <div class="row">       
-
-                        <div class="col-8">
+                    
+                        <div class="col-8 d-none d-lg-block">
                             
-                            <p class="my-p">
-                        <strong>Procesor:</strong>
-                        Intel® Celeron® Processor N3060, 1.6-2.48GHz, 2 cores,2 threads
+                        <p class="my-p">
+                            <strong>Procesor:</strong>
+                            Intel® Celeron® Processor N3060, 1.6-2.48GHz, 2 cores,2 threads
                         </p>
 
                         <p class="my-p">
@@ -82,7 +98,7 @@
 
                         </div>
 
-                        <div class="col-4">
+                        <div class="col">
                             <p>
                                 <strong>MP</strong>
                                 30.990 din.
@@ -92,8 +108,9 @@
                                 29.990 din.
                             </p>
 
-                            <button type="button" class="btn btn-primary btn-lg" wfd-id="560">Detaljnije</button>
+                            <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
                         </div>
+                        
                     </div>
 
                 </div>
@@ -107,12 +124,18 @@
             </div>
         </div>
 
-        
-        
-    </div>
 </template>
 
+<script>
+
+</script>
+
+
 <style>
+
+.img-thumbnail{
+    border: none;
+}
 
 .item{
     background-color: white;
