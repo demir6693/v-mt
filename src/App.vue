@@ -1,6 +1,14 @@
 <template>
   <div id="app">
-    <app-header></app-header>
+
+    <div class="d-none d-lg-block">
+      <app-header></app-header>
+    </div>
+
+    <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
+      <app-headerMobile></app-headerMobile>
+    </div>
+
     <router-view/>
     <app-footer></app-footer>
   </div>
@@ -9,12 +17,14 @@
 <script>
 import Header from './Header.vue';
 import Footer from './Footer.vue';
+import HeaderMobile from './HeaderMobile.vue';
 
 export default {
   name: 'App',
   components: {
     appHeader: Header,
-    appFooter: Footer
+    appFooter: Footer,
+    appHeaderMobile: HeaderMobile
   }
 
 }
