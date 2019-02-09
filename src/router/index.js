@@ -5,6 +5,7 @@ import oNama from '@/components/oNama';
 import lokacija from '@/components/lokacija';
 import regLog from '@/components/regLog';
 import kategorije from '@/components/kategorije';
+import proizvod from '@/components/proizvod';
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/kategorije',
       name: 'kategorije',
       component: kategorije
+    },
+    {
+      path: '/proizvod',
+      name: 'proizvod',
+      component: proizvod
     }
   ]
 })
