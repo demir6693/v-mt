@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import Header from './Header.vue';
-import Footer from './Footer.vue';
-import HeaderMobile from './HeaderMobile.vue';
+import Header from './Header.vue'
+import Footer from './Footer.vue'
+import HeaderMobile from './HeaderMobile.vue'
 
 export default {
   name: 'App',
@@ -34,4 +34,6 @@ export default {
 #app {
   background-color: #f8f9fa;
 }
+
+
 </style>

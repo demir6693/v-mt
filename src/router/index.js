@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import oNama from '@/components/oNama';
-import lokacija from '@/components/lokacija';
-import regLog from '@/components/regLog';
-import kategorije from '@/components/kategorije';
-import proizvod from '@/components/proizvod';
+import oNama from '@/components/oNama'
+import lokacija from '@/components/lokacija'
+import regLog from '@/components/regLog'
+import kategorije from '@/components/kategorije'
+import proizvod from '@/components/proizvod'
 
 Vue.use(Router)
 

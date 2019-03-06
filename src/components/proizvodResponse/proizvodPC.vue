@@ -7,7 +7,7 @@
     <div>
         <div class="row">
 
-            <dov class="col-5">
+            <div class="col-5">
                 <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="">
 
                 <div class="row">
@@ -27,7 +27,7 @@
                         <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="..." class="img-thumbnail">
                     </div>
                 </div>
-            </dov>
+            </div>
 
             <div class="col-3 ">
                 
