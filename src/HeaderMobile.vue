@@ -3,38 +3,48 @@
     <div class="navbar-mobile">
             <div class="row">
                 <div class="col-8">
-                    <a class="navbar-brand naslov-header my-logo" href="#" style="color: #c60100; font-size: 20pt;" id="mbtown">
+                    <button type="button" class="btn my-logo-button" wfd-id="543" id="mbtown">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <router-link to="/">
+                    <a class="navbar-brand naslov-header my-logo" href="#"  id="">
                         <strong>
                             MOBILE TOWN
                         </strong>
                     </a>
+                    </router-link>
                 </div>
                 <div class="col-2 mycol-2">    
-                    <button type="button" class="btn button-header" wfd-id="543" id="loginUser"
-                    style="background-color: #0049A7;
-                                        color: white;">
+                    <button type="button" class="btn button-header" wfd-id="543" id="loginUser">
                         <i class="fas fa-user"></i>
                     </button>
                 </div>
                 <div class="col-2 mycol-2">
-                        <button type="button" class="btn button-header" wfd-id="543" id="cartId"
-                        style="background-color: #0049A7;
-                                            color: white;">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
+                    <button type="button" class="btn button-header" wfd-id="543" id="cartId">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
                 </div>
             </div>
-       
         <div id="panelItems">
             <ul class="list-group">
                 <li class="list-group-item">
-                    item 1
+                    <router-link to="/lokacija-kontakt">
+                        <a href="" class="items-navbar">
+                            Kontakt/Lokacija
+                        </a>
+                    </router-link>
                 </li>
                 <li class="list-group-item">
-                    item 2
+                    <router-link to="/o-nama">
+                        <a href="" class="items-navbar">
+                            O nama
+                        </a>
+                    </router-link>
                 </li>
                 <li class="list-group-item">
-                    item 3
+                    <p style="float: right;" id="idUp">
+                        <i class="fas fa-chevron-up fa-2x"></i>
+                    </p>
                 </li>
             </ul>
         </div>
@@ -81,11 +91,34 @@ export default {
                 $("#panelItems").slideUp();
             });
         });
+
+        $(document).ready(function(){
+            $("#idUp").click(function(){
+                $("#panelItems").slideUp();
+            });
+        });
     }
 }
 </script>
 
-<style>
+<style scoped>
+
+.items-navbar{
+    color: white;
+}
+
+.my-logo{
+    color: #c60100; 
+    font-size: 14pt;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.my-logo-button {
+    margin-top: 4%;
+    margin-bottom: 5%;
+    color: white;
+}
 
 .list-group-item{
     background-color: #007bff;
@@ -131,12 +164,17 @@ export default {
 }
 
 .mycol-2{
-    margin: auto;
-    width: 60%;
-    padding: 10px;
+    margin-top: 3%;
+    margin-left: -3%;
 }
 
 .navbar-mobile{
     background-color: #007bff;
 }
+
+.button-header{
+    background-color: #0049A7;
+    color: white;
+}
+
 </style>

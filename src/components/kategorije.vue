@@ -184,7 +184,7 @@
 </script>
 
 
-<style>
+<style scoped>
 
 .col-cena{
     text-align: right;

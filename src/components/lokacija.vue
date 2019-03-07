@@ -38,7 +38,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .lokacija{
     color: #474747;

@@ -96,7 +96,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .regStyle{
     border: 2px solid #959595;

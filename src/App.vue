@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   background-color: #f8f9fa;
 }

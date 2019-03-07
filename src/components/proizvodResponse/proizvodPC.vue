@@ -161,7 +161,7 @@
 
 
 
-<style>
+<style scoped>
 
 .button-kupi{
     text-align: center;

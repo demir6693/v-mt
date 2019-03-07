@@ -84,7 +84,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 #rcorners4 {
   border-radius: 15px;

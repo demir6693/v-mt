@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import jQuery from 'jquery'
 import popper from 'popper.js'
+import VueResource from 'vue-resource'
 global.jQuery = jQuery
 global.Popper = popper
 global.$ = jQuery
@@ -12,6 +13,7 @@ let Bootstrap = require('bootstrap')
 import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.config.productionTip = false
+Vue.use(VueResource)
 
 /* eslint-disable no-new */
 new Vue({

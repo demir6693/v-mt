@@ -32,7 +32,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .o-nama{
     color: #474747;

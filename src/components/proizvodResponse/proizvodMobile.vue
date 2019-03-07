@@ -105,7 +105,7 @@
 </template>
 
 
-<style>
+<style scoped>
 
 .naslov-item{
     font-size: 18pt;

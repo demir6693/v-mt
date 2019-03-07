@@ -26,7 +26,6 @@
                 <ul class="navbar-nav ml-auto" wfd-id="435">
                 <li class="nav-item" wfd-id="438">
                     <router-link to="/lokacija-kontakt"><a class="nav-link">Kontakt/Lokacija</a></router-link>
-                    
                 </li>
                 <li class="nav-item border-left" wfd-id="438">
                     <router-link to="/o-nama"><a class="nav-link">O nama</a></router-link>
@@ -120,7 +119,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 
 .nav-color {
     background-color: #145bcd;
