@@ -44,16 +44,24 @@
 
                 <div id="afterSuccessPost">
                      <hr>
-                    <div class="custom-file" wfd-id="286">
-                        <input type="file" class="custom-file-input" id="inputGroupFile02" @change="previewImage" accept="image/*">
-                        <label class="custom-file-label" for="inputGroupFile02" wfd-id="287">Unesi sliku</label>
-                    </div>
+                     <div class="row">
+                         <div class="col-10">
+                             <div class="custom-file" wfd-id="286">
+                                <input type="file" class="custom-file-input" id="inputGroupFile02" @change="previewImage" accept="image/*">
+                                <label class="custom-file-label" for="inputGroupFile02" wfd-id="287" >Unesi sliku</label>
+                            </div>
+                         </div>
+                         <div class="col-2">
+                             <img src="../assets/loader.gif" alt="" id="loadingPic">
+                             <i class="fas fa-check-circle fa-2x" id="successPic"></i>
+                         </div>
+                     </div>
                     <br> <br>
                     <div class="row">
                         <div class="col-6">
                             <label for="exampleSelect1" wfd-id="354">Naziv specifikacije</label>
                             <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" v-model="productSpecs.descriptionName" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     
                                 </div>
@@ -62,9 +70,9 @@
                         <div class="col-6">
                             <label for="exampleSelect1" wfd-id="354">Specifikacija</label>
                             <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" v-model="productSpecs.description" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button">
+                                    <button class="btn btn-outline-secondary" type="button" @click="postSpecs">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -108,10 +116,16 @@
             </div>
 
         </div>
+        <button @click="hideShowSpecsPic">showDiv</button>
+        <button @click="showLoading">show load</button>
+        <button @click="hideLoading">hideload</button>
     </div>
 </template>
 
 <script>
+
+import LzString from 'lz-string'
+import { setTimeout } from 'timers';
 
 export default {
 
@@ -143,7 +157,15 @@ export default {
             productImage: {
                 idProd: 0,
                 picture: ''
-            }
+            },
+
+            productSpecs: {
+                productId: 1,
+                descriptionName: '',
+                description: ''
+            },
+            
+            loadingPicture: false
         }
     },
     
@@ -166,7 +188,23 @@ export default {
         hideShowSpecsPic:function() {
             $(document).ready(function(){
                 $("#afterSuccessPost").slideDown();;
-        });
+            });
+        },
+
+        showLoading:function(){
+            $(document).ready(function(){
+                $("#loadingPic").show();
+            });
+        },
+
+        hideLoading:function(){
+            $(document).ready(function(){
+                $("#loadingPic").hide();
+                $("#successPic").show();
+            });
+            setTimeout(function(){
+                $("#successPic").hide('slow');
+            }, 3000);
         },
 
         addBrand() {
@@ -196,46 +234,66 @@ export default {
         },
 
         addProduct:function() {
-            /*
+        
             this.productInput.price = parseFloat(this.productInput.price, 2);
             this.productInput.msrp = parseFloat(this.productInput.msrp, 2)
             
             this.$http.post("http://localhost:5000/api/product/", this.productInput)
             .then(response => {
-                console.log(response); 
+                console.log("success post product"); 
                 this.hideShowSpecsPic();
             }, error => {
                 console.log(error);
-            }); */
-            this.hideShowSpecsPic();
+            }); 
         },
 
         previewImage: function(event) {
-            // Reference to the DOM input element
+
             var input = event.target;
-            // Ensure that you have a file before attempting to read it
+         
             if (input.files && input.files[0]) {
-                // create a new FileReader to read this image and convert to base64 format
+              
                 var reader = new FileReader();
-                // Define a callback function to run, when FileReader finishes its job
+      
                 reader.onload = (e) => {
-                    // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-                    // Read image as base64 and set to imageData
+          
+                    var compressImg = LzString.compressToUTF16(e.target.result);
+
                     this.productImage = {
                         idProd: 1,
-                        picture: e.target.result  
+                        picture: compressImg  
                     }; 
+
                     this.uploadImage();
                 } 
-                // Start the reader job - read file as a data url (base64 format)
+
                 reader.readAsDataURL(input.files[0]);
             }
         },
 
         uploadImage: function() {
+            this.showLoading();
             this.$http.post("http://localhost:5000/api/productpictures/", this.productImage)
             .then(response => {
-                console.log(response);
+                console.log("success post picture");
+                this.hideLoading();
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        decompressImg: function(){
+            this.$http.get("http://localhost:5000/api/productpictures/1")
+            .then(response => {
+                var dcmpImg =  response.body[0]['picture'];
+                var tmp = LzString.decompressFromUTF16(dcmpImg);
+            });
+        },
+
+        postSpecs: function(){
+            this.$http.post("http://localhost:5000/api/productdescriptions/", this.productSpecs)
+            .then(then => {
+                console.log("Success post specs");
             }, error => {
                 console.log(error);
             });
@@ -249,4 +307,13 @@ export default {
 #afterSuccessPost{
     display: none;
 }
+
+#loadingPic{
+    display: none;
+}
+
+#successPic{
+    display: none;
+}
+
 </style>
