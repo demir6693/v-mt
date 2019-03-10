@@ -52,7 +52,7 @@
                             </div>
                          </div>
                          <div class="col-2">
-                             <img src="../assets/loader.gif" alt="" id="loadingPic">
+                             <img src="/assets/loader.gif" alt="" id="loadingPic">
                              <i class="fas fa-check-circle fa-2x" id="successPic"></i>
                          </div>
                      </div>
@@ -79,7 +79,9 @@
                             </div>
                         </div>
                     </div>
-                
+
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="addNewProd" @click="addNew">Dodaj novi artikal</button>
+
                 </div>
 
                 <hr>
@@ -116,9 +118,6 @@
             </div>
 
         </div>
-        <button @click="hideShowSpecsPic">showDiv</button>
-        <button @click="showLoading">show load</button>
-        <button @click="hideLoading">hideload</button>
     </div>
 </template>
 
@@ -165,7 +164,7 @@ export default {
                 description: ''
             },
             
-            loadingPicture: false
+            idProdPost: 0
         }
     },
     
@@ -185,12 +184,18 @@ export default {
 
     methods: {
 
-        hideShowSpecsPic:function() {
+        ShowSpecsPic:function() {
             $(document).ready(function(){
-                $("#afterSuccessPost").slideDown();;
+                $("#afterSuccessPost").slideDown();
             });
         },
 
+        HideSpecsPic:function() {
+            $(document).ready(function(){
+                $("#afterSuccessPost").slideUp();;
+            });
+        },
+        
         showLoading:function(){
             $(document).ready(function(){
                 $("#loadingPic").show();
@@ -205,6 +210,15 @@ export default {
             setTimeout(function(){
                 $("#successPic").hide('slow');
             }, 3000);
+        },
+
+        addNew:function(){
+            this.HideSpecsPic();
+            this.productInput.name = '';
+            this.productInput.price = '';
+            this.productInput.msrp = '';
+            this.productInput.groupId = 0;
+            this.productInput.brandId = 0;
         },
 
         addBrand() {
@@ -240,8 +254,9 @@ export default {
             
             this.$http.post("http://localhost:5000/api/product/", this.productInput)
             .then(response => {
-                console.log("success post product"); 
-                this.hideShowSpecsPic();
+                console.log("success post product");
+                this.idProdPost = response.body['id'];
+                this.ShowSpecsPic();
             }, error => {
                 console.log(error);
             }); 
@@ -260,7 +275,7 @@ export default {
                     var compressImg = LzString.compressToUTF16(e.target.result);
 
                     this.productImage = {
-                        idProd: 1,
+                        idProd: this.idProdPost,
                         picture: compressImg  
                     }; 
 
@@ -282,18 +297,14 @@ export default {
             });
         },
 
-        decompressImg: function(){
-            this.$http.get("http://localhost:5000/api/productpictures/1")
-            .then(response => {
-                var dcmpImg =  response.body[0]['picture'];
-                var tmp = LzString.decompressFromUTF16(dcmpImg);
-            });
-        },
-
         postSpecs: function(){
+            this.productSpecs.productId = this.idProdPost;
             this.$http.post("http://localhost:5000/api/productdescriptions/", this.productSpecs)
-            .then(then => {
+            .then(response => {
                 console.log("Success post specs");
+                this.productSpecs.productId = '';
+                this.productSpecs.descriptionName = '';
+                this.productSpecs.description = '';
             }, error => {
                 console.log(error);
             });
