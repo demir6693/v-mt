@@ -20,6 +20,7 @@
     "jquery": "^3.3.1",
     "lz-string": "^1.4.4",
     "popper.js": "^1.14.7",
+    "vigenere-cipher": "^1.0.0",
     "vue": "^2.5.2",
     "vue-image-compressor": "^1.0.3",
     "vue-picture-input": "^2.1.6",
