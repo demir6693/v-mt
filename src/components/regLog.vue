@@ -94,7 +94,7 @@
             </div>
 
             <div class="col">
-                <button type="button" class="btn btn-primary btn-sm" id="skipInfo">Preskoči <i class="fas fa-arrow-right"></i></button>
+                <router-link to="/login"><button type="button" class="btn btn-primary btn-sm" id="skipInfo">Preskoči <i class="fas fa-arrow-right"></i></button></router-link>
             </div>
 
         </div>

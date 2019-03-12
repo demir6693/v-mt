@@ -7,6 +7,7 @@ import regLog from '@/components/regLog'
 import kategorije from '@/components/kategorije'
 import proizvod from '@/components/proizvod'
 import unosArtikala from '@/components/unosArtikala'
+import login from '@/components/login'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/addartikal',
       name: 'unosArtikala',
       component: unosArtikala
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ]
 })

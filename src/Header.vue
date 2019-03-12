@@ -42,31 +42,9 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453">
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
-                
-               <li class="dropdown">
-          <a href="#" class="nav-link active" data-toggle="dropdown"><b>Uloguj se</b> <span class="caret"></span></a>
-			<ul id="login-dp" class="dropdown-menu">
-				<li>
-					 <div class="row">
-							<div class="col-md-12">
-								 <form class="form" id="pclogin-nav">
-										<div class="form-group">
-											 <input type="email" class="form-control" id="pcemailId" placeholder="Email adresa" required>
-										</div>
-										<div class="form-group">
-											 <input type="password" class="form-control" id="pcpasswId" placeholder="Šifra" required>
-                                             <!--<div class="help-block text-right"><a href="">Forget the password ?</a></div> -->
-										</div>
-										<div class="form-group">
-											 <button type="submit" class="btn btn-primary btn-block">Uloguj se</button>
-										</div>
-								 </form>
-							</div>
-					 </div>
-				</li>
-			</ul>
-        </li>
-
+               <li class="nav-item active">
+                    <router-link to="/login"><a href="" class="nav-link active" data-toggle="dropdown"><b>Uloguj se</b> <span class="caret"></span></a></router-link>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link"><i class="fas fa-shopping-cart fa-2x"></i></a>
                 </li>
