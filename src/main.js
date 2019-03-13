@@ -6,6 +6,7 @@ import router from './router'
 import jQuery from 'jquery'
 import popper from 'popper.js'
 import VueResource from 'vue-resource'
+import VueSession from 'vue-session'
 
 global.jQuery = jQuery
 global.Popper = popper
@@ -15,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
+Vue.use(VueSession)
 
 /* eslint-disable no-new */
 new Vue({

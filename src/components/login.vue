@@ -124,6 +124,9 @@ export default {
                     this.userEmailData.id = response.body[0]['id'];
                     this.userEmailData.email = response.body[0]['email'];
                     
+                    this.$session.start();
+                    this.$session.set('user', this.userEmailData);
+                    
                     router.push({ name: 'Home'});
                 }
                 else
@@ -139,10 +142,6 @@ export default {
             }, error => {
                 console.log(error)
             });
-        },
-
-        login: function(){
-
         }
     }
 }

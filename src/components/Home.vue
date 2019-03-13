@@ -24,6 +24,106 @@
             </a>
         </div>
         <hr>
+        
+        <!-- Naslovna Laptopovi -->
+        <div class="row">
+
+          <div class="col-4 text-center border-right">
+
+            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
+
+            <div class="row">
+              <div class="col-2">
+
+              </div>
+              <div class="col-8">
+                <p>
+                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
+                  N3060/ 4gb/ 500GB /Intel HD
+                </p>
+              </div>
+              <div class="col-2">
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-2"></div>
+              <div class="col-8">
+                <p class="price">
+                  34.990 RSD
+                </p>
+                <button class="btn btn-primary">Detaljnije</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-4 text-center border-right">
+            
+            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
+
+            <div class="row">
+              <div class="col-2">
+
+              </div>
+              <div class="col-8">
+                <p>
+                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
+                  N3060/ 4gb/ 500GB /Intel HD
+                </p>
+              </div>
+              <div class="col-2">
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-2"></div>
+              <div class="col-8">
+                <p class="price">
+                  34.990 RSD
+                </p>
+                <button class="btn btn-primary">Detaljnije</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-4 text-center border-right ">
+
+            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
+
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-8">
+                <p>
+                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
+                  N3060/ 4gb/ 500GB /Intel HD
+                </p>
+              </div>
+              <div class="col-2"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-2"></div>
+              <div class="col-8">
+                <p class="price">
+                  34.990 RSD
+                </p>
+                <button class="btn btn-primary">Detaljnije</button>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <hr>
           <div class="row">
 
             <div class="col-md-3">
@@ -95,4 +195,13 @@ export default {
   border: 1px solid #f8f9fa;
 }
 
+.price{
+  font-size: 18pt;
+  color: red;
+}
+
+.naslovna-img{
+  width: 250px;
+  height: 250px;
+}
 </style>
