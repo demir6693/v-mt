@@ -146,7 +146,17 @@ export default {
                 name: '',
                 price: '',
                 msrp: '',
-                picture: 'nema',
+                pictureId: '',
+                groupId: 0,
+                brandId: 0
+            },
+
+            responseProdData: {
+                id: '',
+                name: '',
+                price: '',
+                msrp: '',
+                pictureId: '',
                 groupId: 0,
                 brandId: 0
             },
@@ -164,7 +174,9 @@ export default {
                 description: ''
             },
             
-            idProdPost: 0
+            idProdPost: 0,
+
+            firstImageProd: true
         }
     },
     
@@ -256,6 +268,7 @@ export default {
             .then(response => {
                 console.log("success post product");
                 this.idProdPost = response.body['id'];
+                this.responseProdData = response.body;
                 this.ShowSpecsPic();
             }, error => {
                 console.log(error);
@@ -292,6 +305,13 @@ export default {
             .then(response => {
                 console.log("success post picture");
                 this.hideLoading();
+
+                if(this.firstImageProd)
+                {   console.log(this.response.body['id']);
+                    this.setTitleImage(this.response.body['id']);
+                    this.firstImageProd = false;
+                }
+
             }, error => {
                 console.log(error);
             });
@@ -305,6 +325,17 @@ export default {
                 this.productSpecs.productId = '';
                 this.productSpecs.descriptionName = '';
                 this.productSpecs.description = '';
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        setTitleImage: function(idImage){
+
+            this.responseProdData.imageData = idImage;
+            this.$http.put("http://localhost:5000/api/product/" + this.responseProdData.id, this.responseProdData)
+            .then(response => {
+                console.log('Success set title image');
             }, error => {
                 console.log(error);
             });

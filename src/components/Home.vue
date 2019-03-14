@@ -26,9 +26,12 @@
         <hr>
         
         <!-- Naslovna Laptopovi -->
-        <div class="row">
-
-          <div class="col-4 text-center border-right">
+        <div v-for="(group, item) in homeData">
+          
+          <h5>{{ item }}</h5>
+          <div class="row" >
+          
+          <div class="col-4 text-center border-right" v-for="prod in group">
 
             <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
 
@@ -37,9 +40,9 @@
 
               </div>
               <div class="col-8">
-                <p>
-                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
-                  N3060/ 4gb/ 500GB /Intel HD
+                <p class="titleProd">
+                  <!-- naslov -->
+                  {{ prod.name }}
                 </p>
               </div>
               <div class="col-2">
@@ -47,83 +50,24 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row priceAndButton ">
               <div class="col-2"></div>
               <div class="col-2"></div>
               <div class="col-8">
                 <p class="price">
-                  34.990 RSD
+                  <!-- cena -->
+                 {{ prod.price }} RSD
                 </p>
                 <button class="btn btn-primary">Detaljnije</button>
               </div>
             </div>
-
-          </div>
-
-          <div class="col-4 text-center border-right">
             
-            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
-
-            <div class="row">
-              <div class="col-2">
-
-              </div>
-              <div class="col-8">
-                <p>
-                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
-                  N3060/ 4gb/ 500GB /Intel HD
-                </p>
-              </div>
-              <div class="col-2">
-
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-2"></div>
-              <div class="col-2"></div>
-              <div class="col-8">
-                <p class="price">
-                  34.990 RSD
-                </p>
-                <button class="btn btn-primary">Detaljnije</button>
-              </div>
-            </div>
-
           </div>
-
-          <div class="col-4 text-center border-right ">
-
-            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
-
-            <div class="row">
-              <div class="col-2"></div>
-              <div class="col-8">
-                <p>
-                  Laptop HP 15-ra037nm Win10 15.6"AG, Intel DC
-                  N3060/ 4gb/ 500GB /Intel HD
-                </p>
-              </div>
-              <div class="col-2"></div>
-            </div>
-
-            <div class="row">
-              <div class="col-2"></div>
-              <div class="col-2"></div>
-              <div class="col-8">
-                <p class="price">
-                  34.990 RSD
-                </p>
-                <button class="btn btn-primary">Detaljnije</button>
-              </div>
-            </div>
-
-
-          </div>
-
+          <hr>
         </div>
-
         <hr>
+        </div>
+        
           <div class="row">
 
             <div class="col-md-3">
@@ -173,14 +117,39 @@
             <div class="col-md-3">
               <img id="rcorners4" src="../assets/motorola_logo.png" alt="" >
             </div>
+            
           </div>
-          <hr>
+          
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld'
+  
+  data(){
+    return{
+      homeData: []
+    }
+  },
+
+  mounted(){
+    this.getHomeData();
+  },
+
+  methods: {
+
+    getHomeData: function(){
+      this.$http.get("http://localhost:5000/api/naslovna")
+      .then(response => {
+        this.homeData = response.body;
+        console.log(this.homeData);
+      }, error => {
+        console.log(error);
+      });
+    }
+
+  }
+
 }
 </script>
 
@@ -198,10 +167,19 @@ export default {
 .price{
   font-size: 18pt;
   color: red;
+   
 }
 
 .naslovna-img{
   width: 250px;
   height: 250px;
+}
+
+.titleProd{
+  margin-bottom: 10%; 
+}
+
+.priceAndButton{
+
 }
 </style>
