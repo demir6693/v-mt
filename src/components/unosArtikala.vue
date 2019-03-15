@@ -40,6 +40,22 @@
                     <input type="number" class="form-control" placeholder="Prodajna cena" id="inputDefault" v-model="productInput.price">
                 </div>
 
+                <div class="row">
+                    <div class="col-10">
+                        <label class="col-form-label" for="inputDefault" wfd-id="319">Slika</label>
+                        <div class="custom-file" wfd-id="286">
+                        <input type="file" class="custom-file-input" id="inputGroupFile02" @change="previewImage" accept="image/*">
+                        <label class="custom-file-label" for="inputGroupFile02" wfd-id="287" >Unesi sliku</label>
+                    </div>
+                    </div>
+                    <div class="col-2">
+                        <img src="/assets/loader.gif" alt="" id="loadingPic">
+                        <i class="fas fa-check-circle fa-2x" id="successPic"></i>
+                    </div>
+                </div>
+
+                <br>
+
                 <button type="button" class="btn btn-primary btn-lg btn-block" id="addProd" @click="addProduct">Dodaj</button>
 
                 <div id="afterSuccessPost">
@@ -146,7 +162,7 @@ export default {
                 name: '',
                 price: '',
                 msrp: '',
-                pictureId: '',
+                pictureId: 0,
                 groupId: 0,
                 brandId: 0
             },
@@ -156,7 +172,7 @@ export default {
                 name: '',
                 price: '',
                 msrp: '',
-                pictureId: '',
+                pictureId: 0,
                 groupId: 0,
                 brandId: 0
             },
@@ -291,7 +307,7 @@ export default {
                         idProd: this.idProdPost,
                         picture: compressImg  
                     }; 
-
+                        
                     this.uploadImage();
                 } 
 
@@ -300,15 +316,34 @@ export default {
         },
 
         uploadImage: function() {
+            
             this.showLoading();
-            this.$http.post("http://localhost:5000/api/productpictures/", this.productImage)
-            .then(response => {
-                console.log("success post picture");
-                this.hideLoading();
 
+            var urlPostPic = "";
+            var postImg;
+
+            if(this.firstImageProd)
+            {
+                urlPostPic = "http://localhost:5000/api/titlepictureproduct/";
+                postImg = {
+                    picture: this.productImage.picture
+                };
+            }
+            else
+            {
+                urlPostPic = "http://localhost:5000/api/productpictures/";
+                postImg = {
+                    idProd: this.productImage.idProd,
+                    picture: this.productImage.picture
+                };
+            }
+
+            this.$http.post(urlPostPic, postImg)
+            .then(response => {
+                this.hideLoading();
                 if(this.firstImageProd)
-                {   console.log(this.response.body['id']);
-                    this.setTitleImage(this.response.body['id']);
+                {   console.log('response picture id: ' + response.body['id']);
+                    this.productInput.pictureId = response.body['id'];
                     this.firstImageProd = false;
                 }
 
@@ -325,17 +360,6 @@ export default {
                 this.productSpecs.productId = '';
                 this.productSpecs.descriptionName = '';
                 this.productSpecs.description = '';
-            }, error => {
-                console.log(error);
-            });
-        },
-
-        setTitleImage: function(idImage){
-
-            this.responseProdData.imageData = idImage;
-            this.$http.put("http://localhost:5000/api/product/" + this.responseProdData.id, this.responseProdData)
-            .then(response => {
-                console.log('Success set title image');
             }, error => {
                 console.log(error);
             });

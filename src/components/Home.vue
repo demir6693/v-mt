@@ -25,15 +25,16 @@
         </div>
         <hr>
         
-        <!-- Naslovna Laptopovi -->
+        <!-- Naslovna products -->
         <div v-for="(group, item) in homeData">
           
           <h5>{{ item }}</h5>
+          <hr>
           <div class="row" >
           
           <div class="col-4 text-center border-right" v-for="prod in group">
 
-            <a href="" class=""><img class="img-thumbnail naslovna-img" src="../assets/laptop.jpg" alt=""></a>
+            <a href="" class=""><img class="img-thumbnail naslovna-img" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
 
             <div class="row">
               <div class="col-2">
@@ -42,7 +43,7 @@
               <div class="col-8">
                 <p class="titleProd">
                   <!-- naslov -->
-                  {{ prod.name }}
+                  {{ prod.brand.name + ' ' + prod.name }}
                 </p>
               </div>
               <div class="col-2">
@@ -124,6 +125,8 @@
 </template>
 
 <script>
+import LzString from 'lz-string'
+
 export default {
   
   data(){
@@ -142,10 +145,20 @@ export default {
       this.$http.get("http://localhost:5000/api/naslovna")
       .then(response => {
         this.homeData = response.body;
-        console.log(this.homeData);
+        this.decompressImg();
       }, error => {
         console.log(error);
       });
+    },
+
+    decompressImg: function(){
+      for([key, value] of Object.entries(this.homeData))
+      {
+        value.forEach(element => {
+          element['titlePictureProduct'].picture = LzString.decompressFromUTF16(element['titlePictureProduct'].picture);
+        });
+      }
+      console.log(this.homeData);
     }
 
   }
@@ -171,8 +184,8 @@ export default {
 }
 
 .naslovna-img{
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
 }
 
 .titleProd{
