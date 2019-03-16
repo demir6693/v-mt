@@ -5,7 +5,7 @@
         </div>
         
         <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
-            <app-proizvodMobile></app-proizvodMobile>
+            <app-proizvodMobile :msg="product" :specs="productSpecs" :pictureSlide="productPictures"></app-proizvodMobile>
         </div>
     </div>    
 </template>

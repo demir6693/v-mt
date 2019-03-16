@@ -8,11 +8,11 @@
         <div class="row">
 
             <div class="col-5">
-                <img class="titlePic" v-bind:src="msg.titlePictureProduct.picture" alt="">
+                <img class="titlePic" v-bind:src="msg.titlePictureProduct.picture" alt="" id="titlePicture">
                 <hr>
                 <div class="row">
-                    <div class="col-3" v-for="picture in pictureSlide">
-                        <img v-bind:src="picture.picture" alt="..." class="img-thumbnail">
+                    <div class="col-3" v-for="(picture, index) in pictureSlide">
+                        <img v-bind:src="picture.picture" alt="..." class="img-thumbnail mini-picture" @click="changePictureOnClick(picture.picture, index)" v-bind:id="index">
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                    <li v-for="spcf in specs.slice(0,4)">
                        <p class="item-specs-mini">
                            <strong>
-                           {{spcf.descriptionName}}:
+                           {{spcf.descriptionName}}
                            </strong>
                            {{spcf.description}}
                        </p>
@@ -105,7 +105,17 @@ export default {
     },
 
     methods:{
-    
+        
+        changePictureOnClick: function(src, id){
+            
+            $(function(){
+               $("#"+id).click(function(){
+                    $("#titlePicture").attr("src", src);
+               });
+            });
+
+        }
+        
     }
 
 }
@@ -143,5 +153,9 @@ export default {
 
 .naslov-item{
     font-size: 18pt;
+}
+
+.mini-picture{
+    cursor: pointer;
 }
 </style>

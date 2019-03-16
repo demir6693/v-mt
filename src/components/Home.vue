@@ -34,35 +34,37 @@
           
           <div class="col-4 text-center border-right" v-for="prod in group">
 
-            <a href="" class=""><img class="img-thumbnail naslovna-img" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
+            <a href="" class="" @click="goToProduct(prod.id)"><img class="img-thumbnail naslovna-img" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
 
-            <div class="row">
-              <div class="col-2">
+            <div class="info-prod">
+                <div class="row">
+                <div class="col-2">
 
+                </div>
+                <div class="col-8">
+                  <p class="titleProd">
+                    <!-- naslov -->
+                    {{ prod.brand.name + ' ' + prod.name }}
+                  </p>
+                </div>
+                <div class="col-2">
+
+                </div>
               </div>
-              <div class="col-8">
-                <p class="titleProd">
-                  <!-- naslov -->
-                  {{ prod.brand.name + ' ' + prod.name }}
-                </p>
-              </div>
-              <div class="col-2">
 
+              <div class="row priceAndButton ">
+                <div class="col-2"></div>
+                <div class="col-2"></div>
+                <div class="col-8">
+                  <p class="price">
+                    <!-- cena -->
+                  {{ prod.price }} RSD
+                  </p>
+                  <button class="btn btn-primary details" @click="goToProduct(prod.id)">Detaljnije</button>
+                </div>
               </div>
             </div>
 
-            <div class="row priceAndButton ">
-              <div class="col-2"></div>
-              <div class="col-2"></div>
-              <div class="col-8">
-                <p class="price">
-                  <!-- cena -->
-                 {{ prod.price }} RSD
-                </p>
-                <button class="btn btn-primary" @click="goToProduct(prod.id)">Detaljnije</button>
-              </div>
-            </div>
-            
           </div>
           <hr>
         </div>
@@ -199,9 +201,18 @@ export default {
 
 .titleProd{
   margin-bottom: 10%; 
+  height: 7em;
 }
 
 .priceAndButton{
 
+}
+
+.details{
+  margin-bottom: 10%;
+}
+
+.info-prod{
+  white-space: normal;
 }
 </style>
