@@ -59,7 +59,7 @@
                   <!-- cena -->
                  {{ prod.price }} RSD
                 </p>
-                <button class="btn btn-primary">Detaljnije</button>
+                <button class="btn btn-primary" @click="goToProduct(prod.id)">Detaljnije</button>
               </div>
             </div>
             
@@ -126,6 +126,7 @@
 
 <script>
 import LzString from 'lz-string'
+import router from '../router'
 
 export default {
   
@@ -158,7 +159,15 @@ export default {
           element['titlePictureProduct'].picture = LzString.decompressFromUTF16(element['titlePictureProduct'].picture);
         });
       }
-      console.log(this.homeData);
+    },
+
+    goToProduct: function(id){
+      router.push({
+        name: 'proizvod',
+        params: {
+          id: id
+        }
+      })
     }
 
   }

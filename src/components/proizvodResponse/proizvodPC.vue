@@ -9,22 +9,10 @@
 
             <div class="col-5">
                 <img class="titlePic" v-bind:src="msg.titlePictureProduct.picture" alt="">
-
+                <hr>
                 <div class="row">
-                    <div class="col-3">
-                        <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="..." class="img-thumbnail">
-                    </div>
-                    
-                    <div class="col-3">
-                        <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="..." class="img-thumbnail">
-                    </div>
-                    
-                    <div class="col-3">
-                        <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="..." class="img-thumbnail">
-                    </div>
-                    
-                    <div class="col-3">
-                        <img src="https://www.gigatron.rs/img/products/medium/image5b6c350e3b102.png" alt="..." class="img-thumbnail">
+                    <div class="col-3" v-for="picture in pictureSlide">
+                        <img v-bind:src="picture.picture" alt="..." class="img-thumbnail">
                     </div>
                 </div>
             </div>
@@ -33,36 +21,12 @@
                 
                 <br>
                <ul class="list-specs-mini">
-                   <li>
+                   <li v-for="spcf in specs.slice(0,4)">
                        <p class="item-specs-mini">
                            <strong>
-                           Dijagonala ekrana:
+                           {{spcf.descriptionName}}:
                            </strong>
-                           6.4"
-                       </p>
-                   </li>
-                   <li>
-                       <p class="item-specs-mini">
-                           <strong>
-                           Broj jezgara procesora:
-                           </strong>
-                           Octa Core
-                       </p>
-                   </li>
-                   <li>
-                       <p class="item-specs-mini">
-                           <strong>
-                           RAM memorija:
-                           </strong>
-                           6 GB
-                       </p>
-                   </li>
-                   <li>
-                       <p class="item-specs-mini">
-                           <strong>
-                           Zadnja kamera:
-                           </strong>
-                           12.0 Mpix + 12.0 Mpix
+                           {{spcf.description}}
                        </p>
                    </li>
                </ul>
@@ -88,10 +52,10 @@
                 <br>
                <div class="div-cart-in border shadow-lg p-3 mb-5 bg-white">
                    <p>
-                       MP 30.990 din.
+                       MP {{ msg.msrp }} din.
                    </p>
                    <p class="cena-popust">
-                       29.990 din.
+                       {{ msg.price }} din.
                    </p>
 
                    <hr>
@@ -129,12 +93,20 @@
 
 <script>
 export default {
-    props: ['msg', 'specs'],
+    props: ['msg', 'specs', 'pictureSlide'],
     data(){
         return{
             
         }
     },
+
+    mounted(){
+       
+    },
+
+    methods:{
+    
+    }
 
 }
 </script>

@@ -41,7 +41,7 @@ export default new Router({
       component: kategorije
     },
     {
-      path: '/proizvod',
+      path: '/proizvod/:id',
       name: 'proizvod',
       component: proizvod
     },

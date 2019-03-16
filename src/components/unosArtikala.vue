@@ -49,8 +49,8 @@
                     </div>
                     </div>
                     <div class="col-2">
-                        <img src="/assets/loader.gif" alt="" id="loadingPic">
-                        <i class="fas fa-check-circle fa-2x" id="successPic"></i>
+                        <img src="/assets/loader.gif" alt="" id="loadingPicTitle">
+                        <i class="fas fa-check-circle fa-2x" id="successPicTitle"></i>
                     </div>
                 </div>
 
@@ -240,6 +240,22 @@ export default {
             }, 3000);
         },
 
+        showLoadingTitle:function(){
+            $(document).ready(function(){
+                $("#loadingPicTitle").show();
+            });
+        },
+
+        hideLoadingTitle:function(){
+            $(document).ready(function(){
+                $("#loadingPicTitle").hide();
+                $("#successPicTitle").show();
+            });
+            setTimeout(function(){
+                $("#successPicTitle").hide('slow');
+            }, 3000);
+        },
+
         addNew:function(){
             this.HideSpecsPic();
             this.productInput.name = '';
@@ -317,20 +333,22 @@ export default {
 
         uploadImage: function() {
             
-            this.showLoading();
+            
 
             var urlPostPic = "";
             var postImg;
 
             if(this.firstImageProd)
-            {
+            {   
+                this.showLoadingTitle();
                 urlPostPic = "http://localhost:5000/api/titlepictureproduct/";
                 postImg = {
                     picture: this.productImage.picture
                 };
             }
             else
-            {
+            {   
+                this.showLoading();
                 urlPostPic = "http://localhost:5000/api/productpictures/";
                 postImg = {
                     idProd: this.productImage.idProd,
@@ -340,11 +358,15 @@ export default {
 
             this.$http.post(urlPostPic, postImg)
             .then(response => {
-                this.hideLoading();
+                
                 if(this.firstImageProd)
-                {   console.log('response picture id: ' + response.body['id']);
+                {   this.hideLoadingTitle();
                     this.productInput.pictureId = response.body['id'];
                     this.firstImageProd = false;
+                }
+                else
+                {
+                    this.hideLoading();
                 }
 
             }, error => {
@@ -374,11 +396,11 @@ export default {
     display: none;
 }
 
-#loadingPic{
+#loadingPic, #loadingPicTitle{
     display: none;
 }
 
-#successPic{
+#successPic, #successPicTitle{
     display: none;
 }
 
