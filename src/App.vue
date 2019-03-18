@@ -2,14 +2,14 @@
   <div id="app">
 
     <div class="d-none d-lg-block">
-      <app-header></app-header>
+      <app-header :grp="groups"></app-header>
     </div>
 
     <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
-      <app-headerMobile></app-headerMobile>
+      <app-headerMobile :grp="groups"></app-headerMobile>
     </div>
 
-    <router-view/>
+    <router-view></router-view>
     <app-footer></app-footer>
   </div>
 </template>
@@ -25,6 +25,29 @@ export default {
     appHeader: Header,
     appFooter: Footer,
     appHeaderMobile: HeaderMobile
+  },
+
+  data(){
+
+    return{
+      groups: {}
+    }
+  },
+
+  mounted(){
+    this.getGroups();
+  },
+
+  methods: {
+
+    getGroups: function(){
+      this.$http.get("http://localhost:5000/api/groups")
+      .then(response => {
+        this.groups = response;
+      }, error => {
+        console.log(error);
+      })
+    }
   }
 
 }

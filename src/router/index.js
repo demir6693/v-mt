@@ -36,8 +36,8 @@ export default new Router({
       component: regLog
     },
     {
-      path: '/kategorije',
-      name: 'kategorije',
+      path: '/proizvodi/:kategorije',
+      name: 'proizvodi',
       component: kategorije
     },
     {

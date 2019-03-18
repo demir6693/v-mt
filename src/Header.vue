@@ -43,7 +43,7 @@
             <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453">
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
                <li class="nav-item active">
-                    <router-link to="/login"><a href="" class="nav-link active" data-toggle="dropdown"><b>Uloguj se</b> <span class="caret"></span></a></router-link>
+                    <router-link to="/login"><a class="nav-link active"><b>Uloguj se</b></a></router-link>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link"><i class="fas fa-shopping-cart fa-2x"></i></a>
@@ -73,9 +73,10 @@
             
             <button class="navbar-brand" id="buttonProizvodi" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i> Proizvodi</button>
                 <div class="dropdown-menu" aria-labelledby="buttonProizvodi" id="dropdownItems">
-                    <a class="dropdown-item" href="#">Kategorija 1</a>
-                    <a class="dropdown-item" href="#">Kategorija 2</a>
-                    <a class="dropdown-item" href="#">Kategorija 3</a>
+                    <ul class ="list-group" v-for="groups in grp.body">
+                        <li class="list-group-item my-drop-down" @click="goToGroupPage(groups.name)">{{ groups.name }}</li>
+                    </ul>
+                    
                 </div>
 
 
@@ -96,6 +97,35 @@
 </nav>
     </div>
 </template>
+
+<script>
+import router from './router'
+
+export default {
+    props: ['grp'],
+
+    data(){
+        return{
+   
+        }
+    },
+
+    mounted(){
+    },
+
+    methods: {
+
+        goToGroupPage: function(params){
+            router.push({
+                name: 'proizvodi',
+                params: {
+                kategorije: params
+                }
+            });
+        }
+    }
+}
+</script>
 
 <style scoped>
 
@@ -172,6 +202,10 @@
         background-color: inherit;
         border-top:0 none;
     }
+}
+
+.my-drop-down{
+    cursor: pointer;
 }
 
 </style>

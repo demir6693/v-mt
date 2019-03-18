@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>Laptop / Notebook računari</h2>
+        <h2>{{titlePage}}</h2>
         
         <hr>
 
@@ -34,33 +34,23 @@
 
         <div class="row">
 
-            <div class="col-2">
+            <div class="col-2 text-center">
                 
                 <nav class="nav flex-column">
-                    
-                    <a class="nav-link active" href="#">
-                        <div class="kategorija">
-                            <b class="my-b">Asus</b>
+                
+                <ul style="list-style-type:none;" v-for="b in brands">
+                    <li>
+                        <div class="brands">
+                            <a class="nav-link active" href="#">
+                                <div class="kategorija">
+                                    <b class="my-b">{{b.name}}</b>
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                    </li>
+                </ul>
+                    
 
-                    <a class="nav-link" href="#">
-                        <div class="kategorija">
-                            <b class="my-b">Acer</b>
-                        </div>
-                    </a>
-                    
-                    <a class="nav-link" href="#">
-                        <div class="kategorija">
-                            <b class="my-b">Lenovo</b>
-                        </div>
-                    </a>
-                    
-                    <a class="nav-link disabled" href="#">
-                        <div class="kategorija">
-                            <b class="my-b">HP</b>
-                        </div>
-                    </a>
                 </nav>
 
             </div>
@@ -68,23 +58,23 @@
             <div class="col-10">
                 
             
-            <div class="row item border-bottom">
+            <div class="row item border-bottom" v-for="prod in product">
                 
                 <div class="col-4 divItem">
-                    <a href="" class="my-a"><img class="img-thumbnail" src="../assets/laptop.jpg" alt=""></a>
+                    <a href="" class="my-a"><img class="img-thumbnail" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
                 </div>
 
                 <div class="col-8">
 
-                    <h5>Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400</h5>
+                    <h5>{{ prod.brand.name + ' ' + prod.name }}</h5>
               
 
                     <div class="row">
                         
                         <div class="col-sm border-right">
-                             Šifra artikla: <strong>8638307</strong>
+                             Šifra artikla: <strong>{{prod.id}}</strong>
                              |
-                             Model: <strong>Acer A315</strong>
+                             Model: <strong>{{prod.name.split(' ').slice(0,3).join(' ')}}</strong>
                         </div>
                      
                     </div>
@@ -125,11 +115,11 @@
                         <div class="col">
                             <p>
                                 <strong>MP</strong>
-                                30.990 din.
+                                {{ prod.msrp }} din.
                             </p>
 
                             <p class="my-pPrice">
-                                29.990 din.
+                                {{ prod.price }} din.
                             </p>
 
                             <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
@@ -180,8 +170,80 @@
 </template>
 
 <script>
+import LzString from 'lz-string'
+export default {
+    
+    data(){
+        return{
+            product: {},
+            titlePage: '',
+            brands: {}
+        }
+    },
 
+    mounted(){
+        this.getProd();
+        this.titlePage = this.$route.params.kategorije;
+        this.getBrand();
+    },
+    
+    methods: {
+
+        getProd: function(){
+
+            var postGroups = {
+                ver: 1,
+                checkData: this.$route.params.kategorije
+            };
+
+            this.$http.post("http://localhost:5000/api/category", postGroups)
+            .then(response => {
+                this.product = response.body;
+                this.product.forEach(element => {
+                   element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
+                });
+            }, error => {
+                console.log(error);
+            }); 
+        },
+
+
+        getBrand: function(){
+            this.$http.get("http://localhost:5000/api/brand")
+            .then(response => {
+                this.brands = response.body;
+            }, error => {
+                console.log(error);
+            })
+        },
+
+        getBrandProd: function(brand){
+
+            var postGroups = {
+                ver: 2,
+                checkData: brand
+            };
+
+            this.$http.post("http://localhost:5000/api/category", postGroups)
+            .then(response => {
+                this.product = response.body;
+                this.product.forEach(element => {
+                   element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
+                });
+            }, error => {
+                console.log(error);
+            });
+        }
+    },
+
+    watch: {
+        '$route.params.kategorije': function () {
+            this.getProd();
+        }
+    }
+}
 </script>
+
 
 
 <style scoped>
