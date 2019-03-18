@@ -25,8 +25,9 @@
         </div>
         <hr>
         
-        <!-- Naslovna products -->
-        <div v-for="(group, item) in homeData">
+        <!-- Naslovna products PC-->
+        <div class="homePc d-none d-lg-block">
+          <div v-for="(group, item) in homeData">
           
           <h5>{{ item }}</h5>
           <hr>
@@ -70,7 +71,44 @@
         </div>
         <hr>
         </div>
+        </div>
         
+        <!-- home mobile -->
+        <div class="homeMob d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
+          <div class="home-mob" v-for="(group, item) in homeData">
+            <h5>{{ item }}</h5>
+            <hr>
+            <div class="row">
+              <div class="col-5 border-right item-in-slide text-center" alt="Second slide" v-for="prod in group">
+                <img v-bind:src="prod.titlePictureProduct.picture" alt="" class="picture-mob">
+
+                <div class="naslov">
+                  <p class="item-slide-title">{{ prod.brand.name + ' ' + prod.name }}</p>
+                </div>
+
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col"></div>
+                  <div class="col">
+                    <p class="price-mob">
+                      {{ prod.price }} RSD
+                    </p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-2"></div>
+                  <div class="col-2">
+                    <button class="btn btn-primary details btn-sm" @click="goToProduct(prod.id)">Detaljnije</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <hr>
+          </div>
+        </div>
+
           <div class="row">
 
             <div class="col-md-3">
@@ -214,5 +252,28 @@ export default {
 
 .info-prod{
   white-space: normal;
+}
+
+.picture-mob{
+  height: 150px;
+  width: 120px;
+  display: block;
+}
+
+.item-in-slide{
+  margin-left: 5%;
+}
+
+.item-slide-title{
+  display: block; /* or inline-block */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
+}
+
+.price-mob{
+  color: red;
 }
 </style>
