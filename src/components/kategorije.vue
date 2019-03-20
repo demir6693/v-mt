@@ -43,7 +43,7 @@
                         <div class="brands">
                             <a class="nav-link active" href="#">
                                 <div class="kategorija">
-                                    <b class="my-b">{{b.brand.name}}</b>
+                                    <b class="my-b" @click="getProByBrand(b.brand.id)">{{b.brand.name}}</b>
                                 </div>
                             </a>
                         </div>
@@ -122,7 +122,9 @@
                                 {{ prod.price }} din.
                             </p>
 
-                            <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
+                            <router-link :to="{ name: 'proizvod', params: { id: prod.id }}">
+                                <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
+                            </router-link>
                         </div>                   
                     </div>
                 </div>
@@ -171,6 +173,7 @@
 
 <script>
 import LzString from 'lz-string'
+import { error } from 'util';
 export default {
     
     data(){
@@ -178,7 +181,9 @@ export default {
             product: {},
             titlePage: '',
             brands: {},
-            groupId: 0
+            groupId: 0,
+            spescProd: {},
+            specsSortObj: {}
         }
     },
 
@@ -213,15 +218,67 @@ export default {
         getBrand: function(){
             this.$http.get("http://localhost:5000/api/groupbybrand/" + this.groupId)
             .then(response => {
-                this.brands = response.body; console.log(this.brands);
+                this.brands = response.body;
             }, error => {
                 console.log(error);
             })
         },
 
-        getBrandProd: function(brand){
+        getProByBrand: function(id){
+            this.$http.get("http://localhost:5000/api/productbybrand/" + id)
+            .then(response => {
+                this.product = response.body;
+                this.product.forEach(element => {
+                   this.groupId = element.groupId; 
+                   element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
+                });
+                this.getSpecsForProd();
+            }, error => {
+                console.log(error);
+            })
+        },
 
-        
+        getSpecsForProd: function(){
+            
+            var postData = {
+                specsId: []
+            };
+
+            this.product.forEach(element => {
+                postData.specsId.push(element.id);
+            });
+
+            this.$http.post("http://localhost:5000/api/productbybrand/", postData)
+            .then(response => {
+                this.spescProd = response;
+                this.seppProdSpecs();
+            }, error => {
+                console.log(error);
+            })
+
+        },
+
+        seppProdSpecs: function(){
+            
+            var specsObj = {
+                prodSpecsById: []
+            };
+
+            this.product.forEach(prod => {
+                this.spescProd.body.forEach(spc => {
+                    spc.forEach(sss => {
+                        if(prod.id == sss.productId)
+                        {
+                            var objSpc = {
+                            idProd: prod.id,
+                            specsProdTmp: sss 
+                            };
+
+                            specsObj.prodSpecsById.push(objSpc);
+                        }
+                    });
+                });
+            }); console.log(specsObj);
         }
     },
 
@@ -294,14 +351,14 @@ export default {
 }
 
 .kategorija{
-    background-color: #f8f9fa;
-    border: 1px solid #474747;
+    background-color: #145bcd;
+    border: 1px solid #145bcd;
     border-radius: 10px;
     text-align: center;
     margin-top: 10px;
 }
 
 .my-b{
- color: #474747;
+ color: white;
 }
 </style>
