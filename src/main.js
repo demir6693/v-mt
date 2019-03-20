@@ -7,6 +7,7 @@ import jQuery from 'jquery'
 import popper from 'popper.js'
 import VueResource from 'vue-resource'
 import VueSession from 'vue-session'
+import VModal from 'vue-js-modal'
 
 global.jQuery = jQuery
 global.Popper = popper
@@ -17,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(VueSession)
+Vue.use(VModal)
 
 /* eslint-disable no-new */
 new Vue({

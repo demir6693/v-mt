@@ -43,7 +43,7 @@
                         <div class="brands">
                             <a class="nav-link active" href="#">
                                 <div class="kategorija">
-                                    <b class="my-b">{{b.name}}</b>
+                                    <b class="my-b">{{b.brand.name}}</b>
                                 </div>
                             </a>
                         </div>
@@ -177,14 +177,14 @@ export default {
         return{
             product: {},
             titlePage: '',
-            brands: {}
+            brands: {},
+            groupId: 0
         }
     },
 
     mounted(){
         this.getProd();
         this.titlePage = this.$route.params.kategorije;
-        this.getBrand();
     },
     
     methods: {
@@ -200,8 +200,10 @@ export default {
             .then(response => {
                 this.product = response.body;
                 this.product.forEach(element => {
+                   this.groupId = element.groupId; 
                    element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
                 });
+                this.getBrand();
             }, error => {
                 console.log(error);
             }); 
@@ -209,9 +211,9 @@ export default {
 
 
         getBrand: function(){
-            this.$http.get("http://localhost:5000/api/brand")
+            this.$http.get("http://localhost:5000/api/groupbybrand/" + this.groupId)
             .then(response => {
-                this.brands = response.body;
+                this.brands = response.body; console.log(this.brands);
             }, error => {
                 console.log(error);
             })
@@ -219,20 +221,7 @@ export default {
 
         getBrandProd: function(brand){
 
-            var postGroups = {
-                ver: 2,
-                checkData: brand
-            };
-
-            this.$http.post("http://localhost:5000/api/category", postGroups)
-            .then(response => {
-                this.product = response.body;
-                this.product.forEach(element => {
-                   element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
-                });
-            }, error => {
-                console.log(error);
-            });
+        
         }
     },
 

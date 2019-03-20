@@ -119,7 +119,7 @@
                         <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="" v-model="brandInput.name">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" @click="addBrand">
+                                <button class="btn btn-outline-secondary" type="button" @click="showBrandDialog">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -134,6 +134,42 @@
             </div>
 
         </div>
+        <modal name="hello-world">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-4">
+                        <div class="d-flex flex-column">
+                        <div class="p-2"></div>
+                        <div class="p-2">
+                            {{brandInput.name}}
+                        </div>
+                        <div class="p-2"></div>
+                    </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex flex-column">
+                            <div class="p-2"></div>
+                            <div class="p-2">
+                                <ul class ="list-group">
+                                    <li class="list-group-item" v-for="grp in group">
+                                        {{ grp.name }}
+                                        <input type="checkbox" v-bind:value="grp.id" v-model="checkedGroup" >
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="p-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" @click="addBrand">Unesi</button>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
@@ -141,6 +177,7 @@
 
 import LzString from 'lz-string'
 import { setTimeout } from 'timers';
+import { error } from 'util';
 
 export default {
 
@@ -192,7 +229,16 @@ export default {
             
             idProdPost: 0,
 
-            firstImageProd: true
+            firstImageProd: true,
+
+            checkedGroup: [],
+
+            responseBrand: {},
+
+            postBrandByGroupData:{
+                groups: [],
+                name: ''
+            }
         }
     },
     
@@ -268,16 +314,17 @@ export default {
         addBrand() {
             this.$http.post("http://localhost:5000/api/brand/", this.brandInput)
             .then(response => {
-                console.log(response);
+                this.responseBrand = response;
+                this.connectBrandWithGroup();
             }, error => {
                 console.log(error);
-            });
+            }); 
         },
 
         addGroup() {
             this.$http.post("http://localhost:5000/api/groups/", this.groupInput)
             .then(response => {
-                console.log(response);
+               this.groupInput.name = '';
             }, error => {
                 console.log(error);
             });
@@ -384,6 +431,37 @@ export default {
                 this.productSpecs.description = '';
             }, error => {
                 console.log(error);
+            });
+        },
+
+        showBrandDialog(){
+            this.$modal.show('hello-world');
+
+        },
+
+        hideBrandDialog(){
+            this.$modal.hide('hello-world');
+        },
+
+        connectBrandWithGroup: function(){
+            this.postBrandByGroupData.groups = this.checkedGroup;
+            this.postBrandByGroupData.name = this.responseBrand.body['id'];
+
+            this.postBrandByGroupData.groups.forEach(element => {
+                
+                var postBrandConn = {
+                    brandId: this.responseBrand.body['id'],
+                    groupId: element
+                };
+                
+                this.$http.post("http://localhost:5000/api/groupbybrand/", postBrandConn)
+                .then(response => {
+                    this.brandInput.name = '';
+                    this.hideBrandDialog();
+                }, error => {
+                    console.log(error);
+                });
+
             });
         }
     }
