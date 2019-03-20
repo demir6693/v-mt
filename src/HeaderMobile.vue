@@ -26,17 +26,26 @@
                 </div>
             </div>
         <div id="panelItems">
+            <ul class="list-group" v-for="groups in grp.body">
+                <li class="list-group-item">
+                    <router-link :to="{ name: 'proizvodi', params: { kategorije: groups.name }}">
+                        <a href="" class="items-navbar" @click="slideUpMenu">
+                            {{ groups.name }}
+                        </a>
+                    </router-link>
+                </li>
+            </ul>
             <ul class="list-group">
                 <li class="list-group-item">
                     <router-link to="/lokacija-kontakt">
-                        <a href="" class="items-navbar">
+                        <a href="" class="items-navbar" @click="slideUpMenu">
                             Kontakt/Lokacija
                         </a>
                     </router-link>
                 </li>
                 <li class="list-group-item">
                     <router-link to="/o-nama">
-                        <a href="" class="items-navbar">
+                        <a href="" class="items-navbar" @click="slideUpMenu">
                             O nama
                         </a>
                     </router-link>
@@ -76,6 +85,7 @@
 
 <script>
 export default {
+    props: ['grp'],
 
     mounted() { 
         $(document).ready(function(){
@@ -97,6 +107,15 @@ export default {
                 $("#panelItems").slideUp();
             });
         });
+    },
+
+    methods: {
+        slideUpMenu: function(){
+            $(document).ready(function(){
+                $("#panelItems").slideUp();
+                $("#loginForm").slideUp();
+            });
+        }
     }
 }
 </script>

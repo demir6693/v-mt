@@ -21,10 +21,12 @@
 
                 <!--Menu-->
                 <div class="container dropdown-menu dropdown-primary" id="dropDownFilters">
-                    <a class="dropdown-item item-filters" href="#">Asus</a>
-                    <a class="dropdown-item item-filters" href="#">Acer</a>
-                    <a class="dropdown-item item-filters" href="#">Lenovo</a>
-                    <a class="dropdown-item item-filters" href="#">HP</a>
+                    <ul class="list-group" v-for="b in brands">
+                        <li class="">
+                            <a class="dropdown-item item-filters" href="#" @click="getProByBrand(b.brand.id)">{{b.brand.name}}</a>
+                        </li>
+                    </ul>
+                    
                 </div>
             </div>  
         </div>
@@ -58,10 +60,12 @@
             <div class="col-10">
                 
             
-            <div class="row item border-bottom" v-for="prod in product">
+            <div class="row item border-bottom" v-for="(prod, index) in product">
                 
                 <div class="col-4 divItem">
-                    <a href="" class="my-a"><img class="img-thumbnail" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
+                    <router-link :to="{ name: 'proizvod', params: { id: prod.id }}">
+                        <a href="" class="my-a"><img class="img-thumbnail" v-bind:src="prod.titlePictureProduct.picture" alt=""></a>
+                    </router-link>
                 </div>
 
                 <div class="col-8">
@@ -80,34 +84,14 @@
                     </div>
 
                     <hr>
-
+                    
                     <div class="row">       
                     
-                        <div class="col-8">
+                        <div class="col-8" v-for="specsProd in specsSortObj[index].prodSpecsById.slice(0,4)">
                             
                         <p class="my-p">
-                            <strong>Procesor:</strong>
-                            Intel® Celeron® Processor N3060, 1.6-2.48GHz, 2 cores,2 threads
-                        </p>
-
-                        <p class="my-p">
-                            <strong>Memorija:</strong>
-                            4GB DDR3L, 2 memorijska slota, max 8GB
-                        </p>
-
-                        <p class="my-p">
-                            <strong>Hard disk:</strong>
-                            500GB 5400 rpm
-                        </p>
-
-                        <p class="my-p">
-                            <strong>Grafička kartica:</strong>
-                            Intel HD Graphics 400
-                        </p>
-
-                        <p class="my-p">
-                            <strong>Ekran:</strong>
-                            15.6"
+                            <strong>{{specsProd.descriptionName}}:</strong>
+                            {{specsProd.description}}
                         </p>
 
                         </div>
@@ -123,10 +107,10 @@
                             </p>
 
                             <router-link :to="{ name: 'proizvod', params: { id: prod.id }}">
-                                <button type="button" class="btn btn-primary btn-lg d-none d-lg-block" wfd-id="560">Detaljnije</button>
+                                <button type="button" class="btn btn-primary btn-lg d-none d-lg-block my-button-pc" wfd-id="560">Detaljnije</button>
                             </router-link>
                         </div>                   
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
@@ -137,17 +121,17 @@
 
     <!-- Item on mobile-tablet-->
 <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
-    <div class="row my-col-item-mobile">
+    <div class="row my-col-item-mobile" v-for="(prod, index) in product">
         
         <div class="col-4 border-bottom">
-            <img src="../assets/laptop.jpg" class="img-thumbnail " alt="...">
+            <img v-bind:src="prod.titlePictureProduct.picture" class="img-thumbnail " alt="...">
         </div>
 
         <div class="col-8">
             
             <div class="col">
-                <h6>
-                    Laptop Acer A315 15.6"HD,Intel DC N3060/4GB/500GB/Intel HD 400
+                <h6 class="title-mobile">
+                    {{ prod.brand.name + ' ' + prod.name }}
                 </h6>
             </div>
 
@@ -155,15 +139,29 @@
 
                 <p>
                     <strong>MP</strong>
-                    30.990 din.
+                    {{ prod.msrp }} din.
                 </p>
 
                 <p class="my-pPrice">
-                    29.990 din.
+                    {{ prod.price }} din.
                 </p>
             </div>
-        </div>
 
+            <div class="row priceAndButton ">
+                <div class="col-2"></div>
+                <div class="col-2"></div>
+                <div class="col-8">
+                  <p class="price">
+                    <!-- cena -->
+                  {{ prod.price }} RSD
+                  </p>
+                  <router-link :to="{ name: 'proizvod', params: { id: prod.id }}">
+                      <button class="btn btn-primary details" @click="goToProduct(prod.id)">Detaljnije</button>
+                  </router-link>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
     
@@ -209,6 +207,7 @@ export default {
                    element.titlePictureProduct.picture = LzString.decompressFromUTF16(element.titlePictureProduct.picture);
                 });
                 this.getBrand();
+                this.getSpecsForProd();
             }, error => {
                 console.log(error);
             }); 
@@ -259,26 +258,31 @@ export default {
         },
 
         seppProdSpecs: function(){
-            
-            var specsObj = {
-                prodSpecsById: []
-            };
+               
+            var objTmp = [];
 
             this.product.forEach(prod => {
+
+                var specsObj = {
+                idProd: 0,
+                prodSpecsById: []
+                };
+
+                specsObj.idProd = prod.id;
+
                 this.spescProd.body.forEach(spc => {
                     spc.forEach(sss => {
                         if(prod.id == sss.productId)
                         {
-                            var objSpc = {
-                            idProd: prod.id,
-                            specsProdTmp: sss 
-                            };
-
-                            specsObj.prodSpecsById.push(objSpc);
+                            specsObj.prodSpecsById.push(sss);
                         }
                     });
                 });
-            }); console.log(specsObj);
+               
+               objTmp.push(specsObj);
+            }); 
+
+            this.specsSortObj = objTmp;
         }
     },
 
@@ -293,6 +297,20 @@ export default {
 
 
 <style scoped>
+
+.details{
+    margin-bottom: 5%; 
+}
+.list-group{
+    list-style-type: none;
+}
+.title-mobile{
+    margin-top: 1%; 
+}
+
+.my-button-pc{
+    margin-bottom: 5%; 
+}
 
 .col-cena{
     text-align: right;
