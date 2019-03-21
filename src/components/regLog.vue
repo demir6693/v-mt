@@ -307,6 +307,7 @@ export default {
             this.$http.post("http://localhost:5000/api/users/", this.sendPostUserEmail)
             .then(response => {
                 this.userInfo.idUser = response.body['id'];
+                this.createCartForUser();
                 this.ShowSpecsPic();
             }, error => {
                 console.log(error);
@@ -314,6 +315,30 @@ export default {
             
         },
 
+        createCartForUser: function(){
+
+            var currentDate = new Date();
+
+            var date = currentDate.getDate();
+            var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+            var year = currentDate.getFullYear();
+
+            var dateString = year + "-" +(month + 1) + "-" + date;
+
+            var objCartCreate = {
+                userId: this.userInfo.idUser,
+                dateCreated: dateString
+            };
+
+            //create cart
+            this.$http.post("http://localhost:5000/api/carts/", objCartCreate)
+            .then(response => {
+                console.log(response);
+            }, error => {
+                console.log(error);
+            });
+
+        },
 
         // EMAIL USER INFO POST
         

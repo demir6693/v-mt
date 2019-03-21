@@ -66,7 +66,7 @@
                     </p>
                     
                     <div class="button-kupi">
-                        <button type="button" class="btn btn-primary btn-lg" wfd-id="563">
+                        <button type="button" class="btn btn-primary btn-lg" wfd-id="563" @click="onClick(msg.id)">
                             Dodaj u korpu <i class="fas fa-shopping-cart"></i>
                         </button>
                     </div>
@@ -93,10 +93,16 @@
 
 <script>
 export default {
-    props: ['msg', 'specs', 'pictureSlide'],
+    props: {
+        msg: {},
+        specs: {},
+        pictureSlide: {},
+        onClick: Function
+    },
+    
     data(){
         return{
-            
+                 
         }
     },
 

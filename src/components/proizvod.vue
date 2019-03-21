@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="d-none d-lg-block">
-            <app-proizvodPC :msg="product" :specs="productSpecs" :pictureSlide="productPictures"></app-proizvodPC>
+            <app-proizvodPC :msg="product" :specs="productSpecs" :pictureSlide="productPictures" :onClick="addToCart"></app-proizvodPC>
         </div>
         
         <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
@@ -14,6 +14,7 @@
 import proizvodMobile from './proizvodResponse/proizvodMobile.vue';
 import proizvodPC from './proizvodResponse/proizvodPC.vue';
 import LzString from 'lz-string'
+import { error } from 'util';
 
 export default {
     components: {
@@ -75,6 +76,16 @@ export default {
                 console.log(error);
             });
             
+        },
+
+        addToCart(idProd){
+
+            var userId = 0;
+            if(this.$session.has('user'))
+            {
+                userId = this.$session.get('user').id;
+            }
+               
         }
     }
 }

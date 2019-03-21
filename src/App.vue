@@ -2,7 +2,7 @@
   <div id="app">
 
     <div class="d-none d-lg-block">
-      <app-header :grp="groups"></app-header>
+      <app-header :grp="groups" :loginBool="loginHeaderData" :userData="loginUserData"></app-header>
     </div>
 
     <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
@@ -28,14 +28,24 @@ export default {
   },
 
   data(){
-
     return{
-      groups: {}
+      groups: {},
+      loginHeaderData: false,
+      loginUserData: {}
     }
   },
 
   mounted(){
     this.getGroups();
+    if(this.$session.has('user'))
+    {
+      this.loginHeaderData = true;
+      this.loginUserData = this.$session.get('user');
+    }
+    else
+    {
+      this.loginHeaderData = false;
+    }
   },
 
   methods: {
@@ -47,7 +57,8 @@ export default {
       }, error => {
         console.log(error);
       })
-    }
+    },
+    
   }
 
 }

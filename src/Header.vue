@@ -40,7 +40,20 @@
                 <span class="navbar-toggler-icon" wfd-id="461"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453">
+            <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453" v-if="loginBool">
+                <ul class="navbar-nav mx-md-auto" wfd-id="455">
+               <li class="nav-item active">
+                    <router-link to="/login"><a class="nav-link active"><b>{{ userData.email }}</b></a></router-link>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link logout" @click="logOut">Izloguj se</a>
+                </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453" v-else>
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
                <li class="nav-item active">
                     <router-link to="/login"><a class="nav-link active"><b>Uloguj se</b></a></router-link>
@@ -102,15 +115,16 @@
 import router from './router'
 
 export default {
-    props: ['grp'],
+    props: ['grp', 'loginBool', 'userData'],
 
     data(){
         return{
-   
+            
         }
     },
 
     mounted(){
+        
     },
 
     methods: {
@@ -122,6 +136,12 @@ export default {
                 kategorije: params
                 }
             });
+        },
+
+        logOut: function(){
+            this.$session.remove('user');
+            this.loginBool = false;
+            location.reload();
         }
     }
 }
@@ -208,4 +228,7 @@ export default {
     cursor: pointer;
 }
 
+.logout{
+    cursor: pointer;
+}
 </style>
