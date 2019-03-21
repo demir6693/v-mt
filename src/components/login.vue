@@ -47,6 +47,7 @@
 <script>
 import VigenereCipher from 'vigenere-cipher'
 import router from '../router'
+import { error } from 'util';
 
 export default {
     data() {
@@ -126,7 +127,7 @@ export default {
                     location.reload();
                     this.$session.start();
                     this.$session.set('user', this.userEmailData);
-                    
+                    this.useCartUserById(this.userEmailData.id);
                     router.push({ name: 'Home'});
                 }
                 else
@@ -142,6 +143,16 @@ export default {
             }, error => {
                 console.log(error)
             });
+        },
+
+        useCartUserById: function(id)
+        {
+            this.$http.get("http://localhost:5000/api/carts/" + id)
+            .then(response => {
+                this.$session.set('userCart', response.body);
+            }, error => {
+                console.log(error);
+            })
         }
     }
 }

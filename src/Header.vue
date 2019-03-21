@@ -46,7 +46,41 @@
                     <router-link to="/login"><a class="nav-link active"><b>{{ userData.email }}</b></a></router-link>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                    <a class="nav-link">
+                        <div class="dropdown">
+                            <span><i class="fas fa-shopping-cart fa-2x" id="cartIcon"></i></span>
+                            <div class="dropdown-content" id="dropDownCart">
+                            
+                                <ul class="list-group" style="list-style-type:none;" v-for="(cartProd, index) in cartItems">
+                                    <li class="border-bottom">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                {{ ++index + ". " + cartProd.product.name.split(' ').slice(0,3).join(' ')}}
+                                            </div>
+                                            <div class="col-3">
+                                                {{ cartProd.product.price + ' din'}}
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-danger" wfd-id="541">X</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        <button class="btn btn-primary">Idi na kasu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        Ukupno: {{ sumCart }} din
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        ( {{ cartItems.length }} )
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link logout" @click="logOut">Izloguj se</a>
@@ -115,7 +149,14 @@
 import router from './router'
 
 export default {
-    props: ['grp', 'loginBool', 'userData'],
+    props: {
+        grp: {},
+        loginBool: {},
+        userData: {},
+        cartItems: {},
+        checkCart: Function,
+        cartSumPrice: 0
+    },
 
     data(){
         return{
@@ -124,6 +165,28 @@ export default {
     },
 
     mounted(){
+       
+       $(document).ready(function(){
+        $("#cartIcon").click(function(){
+            $("#dropDownCart").toggle();
+            });
+        });
+
+        
+    },
+
+    computed: {
+        sumCart: function(){
+            if(this.cartItems.length > 0)
+            {   
+                this.cartSumPrice = 0;
+                this.cartItems.forEach(element => {
+                    this.cartSumPrice += element.product.price;
+                });
+            }
+
+            return this.cartSumPrice;
+        }
         
     },
 
@@ -140,6 +203,7 @@ export default {
 
         logOut: function(){
             this.$session.remove('user');
+            this.$session.remove('userCart');
             this.loginBool = false;
             location.reload();
         }
@@ -230,5 +294,25 @@ export default {
 
 .logout{
     cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  color: black;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 500px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:active .dropdown-content {
+  display: block;
 }
 </style>

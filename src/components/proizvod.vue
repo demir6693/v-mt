@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="d-none d-lg-block">
-            <app-proizvodPC :msg="product" :specs="productSpecs" :pictureSlide="productPictures" :onClick="addToCart"></app-proizvodPC>
+            <app-proizvodPC :msg="product" :specs="productSpecs" :pictureSlide="productPictures" :onClick="addToCart" :cnt="counter"></app-proizvodPC>
         </div>
         
         <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
@@ -17,6 +17,11 @@ import LzString from 'lz-string'
 import { error } from 'util';
 
 export default {
+    
+    props:{
+        checkCartCount: Function
+    },
+
     components: {
         appProizvodPC: proizvodPC,
         appProizvodMobile: proizvodMobile
@@ -81,11 +86,31 @@ export default {
         addToCart(idProd){
 
             var userId = 0;
-            if(this.$session.has('user'))
+            var cartId = 0;
+            if(this.$session.has('user') && this.$session.has('userCart'))
             {
                 userId = this.$session.get('user').id;
+                cartId = this.$session.get('userCart')[0].id; 
+                this.addItemsToCart(cartId, idProd);
             }
                
+        },
+
+        addItemsToCart: function(cartId, idProd){
+
+            var postDataCart = {
+                productId: idProd,
+                cartId: cartId,
+                kolicina: 1
+            };
+
+            this.$http.post("http://localhost:5000/api/cartitems/", postDataCart)
+            .then(response => {
+                console.log('Success add product to cart.');
+                this.checkCartCount();
+            }, error => {
+                console.log(error);
+            });
         }
     }
 }
