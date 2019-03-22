@@ -61,7 +61,7 @@
                                                 {{ cartProd.product.price + ' din'}}
                                             </div>
                                             <div class="col-2">
-                                                <button type="button" class="btn btn-danger" wfd-id="541">X</button>
+                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(cartProd.id)">X</button>
                                             </div>
                                         </div>
                                     </li>
@@ -70,7 +70,9 @@
                                 <div class="row">
                                     <div class="col-2"></div>
                                     <div class="col-4">
+                                    <router-link to="/checkout">
                                         <button class="btn btn-primary">Idi na kasu</button>
+                                    </router-link>
                                     </div>
                                     <div class="col-6">
                                         Ukupno: {{ sumCart }} din
@@ -203,9 +205,21 @@ export default {
 
         logOut: function(){
             this.$session.remove('user');
+            this.$session.remove('userInfo');
             this.$session.remove('userCart');
             this.loginBool = false;
             location.reload();
+        },
+
+        removeFromCart: function(id){
+
+            this.$http.delete("http://localhost:5000/api/cartitems/" + id)
+            .then(response => {
+                console.log("Successful remove product from cart.");
+                this.checkCart();
+            }, error =>{
+                console.log(error);
+            });
         }
     }
 }

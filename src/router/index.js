@@ -8,6 +8,7 @@ import kategorije from '@/components/kategorije'
 import proizvod from '@/components/proizvod'
 import unosArtikala from '@/components/unosArtikala'
 import login from '@/components/login'
+import checkout from '@/components/checkout'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: checkout
     }
   ]
 })

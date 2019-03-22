@@ -124,10 +124,10 @@ export default {
                 {
                     this.userEmailData.id = response.body[0]['id'];
                     this.userEmailData.email = response.body[0]['email'];
-                    location.reload();
                     this.$session.start();
                     this.$session.set('user', this.userEmailData);
                     this.useCartUserById(this.userEmailData.id);
+                    location.reload();
                     router.push({ name: 'Home'});
                 }
                 else
