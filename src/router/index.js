@@ -9,6 +9,7 @@ import proizvod from '@/components/proizvod'
 import unosArtikala from '@/components/unosArtikala'
 import login from '@/components/login'
 import checkout from '@/components/checkout'
+import checkoutorders from '@/components/checkoutorders'
 
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/checkout',
       name: 'checkout',
       component: checkout
+    },
+    {
+      path: '/checkout-orders',
+      name: 'checkout-orders',
+      component: checkoutorders
     }
   ]
 })
