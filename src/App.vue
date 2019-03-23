@@ -20,7 +20,7 @@
       :checkCart="getUserCartItems"></app-headerMobile>
     </div>
 
-    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems"></router-view>
+    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :checkCart="getUserCartItems"></router-view>
     <app-footer></app-footer>
   </div>
 </template>

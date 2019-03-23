@@ -2,23 +2,24 @@
     <div class="container">
         <div class="row border" v-for="(ord, index) in order">
             <div class="col-4 border-right">
+
                 <p>
-                    Ime: <strong>{{userInfo[index].fName}}</strong>
+                    Ime: <strong>{{ord.usersInfo.fName}}</strong>
                 </p>
                 <p>
-                    Prezime: <strong>{{userInfo[index].lName}}</strong>
+                    Prezime: <strong>{{ord.usersInfo.lName}}</strong>
                 </p>
                 <p>
-                    Grad: <strong>{{userInfo[index].grad}}</strong>
+                    Grad: <strong>{{ord.usersInfo.grad}}</strong>
                 </p>
                 <p>
-                    Poštanski broj: <strong>{{userInfo[index].postalCode}}</strong>
+                    Poštanski broj: <strong>{{ord.usersInfo.postalCode}}</strong>
                 </p>
                 <p>
-                    Adresa: <strong>{{userInfo[index].adresa}}</strong>
+                    Adresa: <strong>{{ord.usersInfo.adresa}}</strong>
                 </p>
                 <p>
-                    Broj telefona: <strong>{{userInfo[index].brTelefona}}</strong>
+                    Broj telefona: <strong>{{ord.usersInfo.brTelefona}}</strong>
                 </p>
             </div>
             <div class="col-6 border-right">
@@ -36,7 +37,7 @@
                         <div class="row">
                             <div class="col-10"></div>
                             <div class="col-2">
-                                <button type="button" class="btn btn-danger" wfd-id="563">X</button>
+                                <button type="button" class="btn btn-danger" wfd-id="563" @click="deleteItemFromOrder(item.id)">X</button>
                             </div>
                         </div>
                         <hr>
@@ -53,6 +54,9 @@
                 <button class="btn btn-success">
                     Pošalji
                 </button>
+                <button class="btn btn-danger" @click="deleteOrder(ord.id)">
+                    Otkaži
+                </button>
             </div>
             
         </div>
@@ -61,6 +65,10 @@
 
 <script>
 export default {
+    props: {
+        checkCart: Function
+    },
+
     data(){
         return{
             orderItems: [],
@@ -80,7 +88,6 @@ export default {
             .then(response => {
                 this.order = response.body;
                 this.getOrderItems();
-                this.getUserInfo();
             }, error => {
                 console.log(error);
             });
@@ -100,16 +107,26 @@ export default {
             });
         },
 
-        getUserInfo: function(){
-
-            this.order.forEach(element => {
-                this.$http.get("http://localhost:5000/api/usersinfo/" + element.userId)
-                .then(response => {
-                    this.userInfo.push(response.body);
-                }, error => {
-                    console.log(error);
-                })
+        deleteItemFromOrder: function(idItemsOrder){
+            this.$http.delete("http://localhost:5000/api/orderitems/" + idItemsOrder)
+            .then(response => {
+                this.orderItems = [];
+                this.checkCart();
+                this.getOrder();
+            }, error => {
+                console.log(error);
             });
+        },
+
+        deleteOrder: function(orderId){
+            this.$http.delete("http://localhost:5000/api/orders/" + orderId)
+            .then(response => {
+                this.orderItems = [];
+                this.checkCart();
+                this.getOrder();
+            }, error => {
+                console.log(error);
+            })
         }
 
     }

@@ -426,7 +426,7 @@ export default {
             var dateString = year + "-" +(month + 1) + "-" + day;
 
             var postOrderData = {
-                userId: this.$session.get('user').id,
+                userInfoId: this.$session.get('user').id,
                 cartId: this.cartItems[0].cartId,
                 dateOrder: dateString
             };
