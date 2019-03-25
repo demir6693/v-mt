@@ -2,7 +2,6 @@
     <div class="container">
         <div class="row border" v-for="(ord, index) in order">
             <div class="col-4 border-right">
-
                 <p>
                     Ime: <strong>{{ord.usersInfo.fName}}</strong>
                 </p>
@@ -51,7 +50,7 @@
                 <p id="hideZero">
                     {{ sumPrice = 0}}
                 </p>
-                <button class="btn btn-success">
+                <button class="btn btn-success" @click="sendPackage(ord)">
                     Pošalji
                 </button>
                 <button class="btn btn-danger" @click="deleteOrder(ord.id)">
@@ -127,6 +126,52 @@ export default {
             }, error => {
                 console.log(error);
             })
+        },
+
+        sendPackage: function(order){
+            
+            var currentDate = new Date();
+
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth(); //January = 0 
+            var year = currentDate.getFullYear();
+
+            var dateString = year + "-" +(month + 1) + "-" + day;
+
+            var postReceipt = {
+                userInfoId: order.usersInfo.id,
+                DateofReceipt: currentDate
+            };
+
+            this.$http.post("http://localhost:5000/api/receipt/", postReceipt)
+            .then(response => {
+                this.packageItems(order, response.body.id);
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        packageItems: function(order, receiptId)
+        {
+            this.orderItems.forEach(element => {
+                element.forEach(product => {
+                    if(order.id == product.orderId)
+                    {
+                        var receiptItems = {
+                            receiptId: receiptId,
+                            productId: product.product.id
+                        };
+
+                        this.$http.post("http://localhost:5000/api/receiptitems/", receiptItems)
+                        .then(response => {
+                            console.log("Success receipt");
+                        }, error => {
+                            console.log(error);
+                        })
+                    }  
+                });
+            });
+            
         }
 
     }
