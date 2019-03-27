@@ -10,6 +10,7 @@ import unosArtikala from '@/components/unosArtikala'
 import login from '@/components/login'
 import checkout from '@/components/checkout'
 import checkoutorders from '@/components/checkoutorders'
+import receipt from '@/components/receipt'
 
 Vue.use(Router)
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/checkout-orders',
       name: 'checkout-orders',
       component: checkoutorders
+    },
+    {
+      path: '/lista-racuna',
+      name: 'lista-racuna',
+      component: receipt
     }
   ]
 })

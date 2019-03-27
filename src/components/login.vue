@@ -124,11 +124,10 @@ export default {
                 {
                     this.userEmailData.id = response.body[0]['id'];
                     this.userEmailData.email = response.body[0]['email'];
-                    this.$session.start();
-                    this.$session.set('user', this.userEmailData);
                     this.useCartUserById(this.userEmailData.id);
-                    location.reload();
-                    router.push({ name: 'Home'});
+                    localStorage.setItem('user', JSON.stringify(this.userEmailData));
+
+                    localStorage.removeItem("freeCart");
                 }
                 else
                 {
@@ -149,10 +148,17 @@ export default {
         {
             this.$http.get("http://localhost:5000/api/carts/" + id)
             .then(response => {
-                this.$session.set('userCart', response.body);
+                localStorage.setItem('cartUser', JSON.stringify(response.body[0]))
+                router.push({ name: 'Home'});
+                location.reload();
             }, error => {
                 console.log(error);
             })
+        },
+
+        moveToUserCart: function()
+        {
+            
         }
     }
 }

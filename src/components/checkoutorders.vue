@@ -23,7 +23,9 @@
             </div>
             <div class="col-6 border-right">
                 <div v-for="ordItem in orderItems">
-                    <div v-for="item in ordItem" v-if="ord.id == item.orderId" :value="sumPrice += item.product.price">
+                    <div v-for="item in ordItem" 
+                        v-if="ord.id == item.orderId" 
+                        :value="sumPrice += item.product.price">
                         <p>
                             Šifra: <strong>{{item.product.id}}</strong>
                         </p>
@@ -152,8 +154,22 @@ export default {
         },
 
         packageItems: function(order, receiptId)
-        {
-            this.orderItems.forEach(element => {
+        {   
+            var deleteOrd = true;
+            var ordItems = this.orderItems;
+            var countCartItems = 0;
+
+            ordItems.forEach(element => {
+                element.forEach(product => {
+                    if(order.id == product.orderId)
+                    {
+                        countCartItems++;            
+                    }  
+                });
+            });
+
+            var countReceiptItems = 0;
+            ordItems.forEach(element => {
                 element.forEach(product => {
                     if(order.id == product.orderId)
                     {
@@ -164,15 +180,34 @@ export default {
 
                         this.$http.post("http://localhost:5000/api/receiptitems/", receiptItems)
                         .then(response => {
+                            
                             console.log("Success receipt");
+                            countReceiptItems++;
+                            if(countCartItems == countReceiptItems)
+                            {
+                                this.deleteOrder(order.id);
+                            }
                         }, error => {
                             console.log(error);
-                        })
+                        });
                     }  
                 });
             });
             
+            
+        },
+
+        deleteOrder: function(id)
+        {
+            this.$http.delete("http://localhost:5000/api/orders/" + id)
+            .then(response => {
+                console.log("Success delete order!");
+                location.reload();
+            }, error => {
+                console.log(error);
+            });
         }
+
 
     }
 }

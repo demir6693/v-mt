@@ -87,11 +87,26 @@ export default {
 
             var userId = 0;
             var cartId = 0;
-            if(this.$session.has('user') && this.$session.has('userCart'))
-            {
-                userId = this.$session.get('user').id;
-                cartId = this.$session.get('userCart')[0].id; 
+            if(localStorage.user && localStorage.cartUser)
+            {   
+                var user = JSON.parse(localStorage.getItem('user'));
+                var cart = JSON.parse(localStorage.getItem('cartUser'));
+                userId = user.id;
+                cartId = cart.id;
                 this.addItemsToCart(cartId, idProd);
+            }
+            else
+            {
+                var freeCart = JSON.parse(localStorage.getItem("freeCart"));
+                //freeCart.itemsId.push(idProd);
+                var product = {
+                    idProd: idProd,
+                    quant: 1
+                };
+
+                freeCart.push(product);
+
+                localStorage.setItem("freeCart", JSON.stringify(freeCart));
             }
                
         },

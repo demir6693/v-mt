@@ -8,6 +8,7 @@
       :userData="loginUserData" 
       :cartItems="userCartItems"
       :checkCart="getUserCartItems"
+      :freeCartData="freeCartData"
       ></app-header>
     </div>
 
@@ -17,7 +18,9 @@
       :loginBool="loginHeaderData" 
       :userData="loginUserData" 
       :cartItems="userCartItems"
-      :checkCart="getUserCartItems"></app-headerMobile>
+      :checkCart="getUserCartItems"
+      :freeCartData="freeCartData"
+      ></app-headerMobile>
     </div>
 
     <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :checkCart="getUserCartItems"></router-view>
@@ -45,7 +48,8 @@ export default {
       loginHeaderData: false,
       loginUserData: {},
       userCartData: {},
-      userCartItems: {}
+      userCartItems: {},
+      freeCartData: []
     }
   },
 
@@ -54,21 +58,36 @@ export default {
     this.checkLoginUser();
   },
 
+  computed: {
+  },
+
   methods: {
     
     checkLoginUser: function(){
-      if(this.$session.has('user') && this.$session.has('userCart'))
+      if(localStorage.user && localStorage.cartUser)
       {
+        var user = JSON.parse(localStorage.getItem('user'));
+
+        var cart = JSON.parse(localStorage.getItem('cartUser'));
+
         this.loginHeaderData = true;
-        this.loginUserData = this.$session.get('user');
-        this.userCartData = this.$session.get('userCart')[0];
+        this.loginUserData = user;
+        this.userCartData = cart;
         this.getUserCartItems();
       }
       else
       {
         this.loginHeaderData = false;
+        
+        if(!localStorage.freeCart)
+        {
+          var freeCart = [];
+          localStorage.setItem("freeCart", JSON.stringify(freeCart));
+        }
+
+        this.getFromFreeCart();
       }
-    },
+    }, 
 
     getGroups: function(){
       this.$http.get("http://localhost:5000/api/groups")
@@ -80,13 +99,27 @@ export default {
     },
 
     getUserCartItems: function(){
-      
+
       this.$http.get("http://localhost:5000/api/cartitems/" + this.userCartData.id)
       .then(response => {
         this.userCartItems = response.body;
       }, error => {
         console.log(error);
       });
+      
+    },
+
+    getFromFreeCart: function(){
+        var freeCartTmp = JSON.parse(localStorage.getItem('freeCart'));
+
+        freeCartTmp.forEach(element => {
+          this.$http.get("http://localhost:5000/api/product/" + element.idProd)
+          .then(response => {
+              this.freeCartData.push(response.body);
+          }, error => {
+            console.log(error);
+          });
+        })
     }
   }
 

@@ -94,9 +94,47 @@
                <li class="nav-item active">
                     <router-link to="/login"><a class="nav-link active"><b>Uloguj se</b></a></router-link>
                 </li>
+
                 <li class="nav-item active">
-                    <a class="nav-link"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                    <a class="nav-link">
+                        <div class="dropdown">
+                            <span><i class="fas fa-shopping-cart fa-2x" id="cartIcon"></i></span>
+                            <div class="dropdown-content" id="dropDownCart">
+                            
+                                <ul class="list-group" style="list-style-type:none;" v-for="prod in freeCartData">
+                                    <li class="border-bottom">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                {{ prod.name.split(' ').slice(0,3).join(' ')}}
+                                            </div>
+                                            <div class="col-3">
+                                                {{ prod.price + ' din'}}
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-danger" wfd-id="541">X</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                    <router-link to="/checkout">
+                                        <button class="btn btn-primary">Idi na kasu</button>
+                                    </router-link>
+                                    </div>
+                                    <div class="col-6">
+                                        Ukupno: 0 din
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        ( {{ freeCartData.length }} )
+                    </a>
                 </li>
+
                 <li class="nav-item">
                     <router-link to="/moj-nalog"><a class="nav-link">Registruj se</a></router-link>
                 </li>
@@ -153,11 +191,12 @@ import router from './router'
 export default {
     props: {
         grp: {},
-        loginBool: {},
+        loginBool: Boolean,
         userData: {},
         cartItems: {},
         checkCart: Function,
-        cartSumPrice: 0
+        cartSumPrice: 0,
+        freeCartData: []
     },
 
     data(){
@@ -173,8 +212,6 @@ export default {
             $("#dropDownCart").toggle();
             });
         });
-
-        
     },
 
     computed: {
@@ -204,9 +241,8 @@ export default {
         },
 
         logOut: function(){
-            this.$session.remove('user');
-            this.$session.remove('userInfo');
-            this.$session.remove('userCart');
+            localStorage.removeItem('user');
+            localStorage.removeItem('cartUser');
             this.loginBool = false;
             location.reload();
         },
@@ -221,6 +257,7 @@ export default {
                 console.log(error);
             });
         }
+
     }
 }
 </script>
