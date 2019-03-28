@@ -34,7 +34,7 @@ export default new Router({
       component: lokacija
     },
     {
-      path: '/moj-nalog',
+      path: '/registracija',
       name: 'regLog',
       component: regLog
     },

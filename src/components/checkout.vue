@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2">
-                <button type="button" class="btn btn-primary" wfd-id="563" @click="showUserInfo">Dalje</button>
+                <button type="button" class="btn btn-primary" wfd-id="563" @click="showUserInfo">Idi na kasu</button>
             </div>
         </div>
         </div>
@@ -201,9 +201,10 @@ export default {
     },
 
     mounted(){
-        if(this.$session.has('user'))
-        {
-           this.useUserInfo(this.$session.get('user').id);
+        if(localStorage.user)
+        {   
+           var user = JSON.parse(localStorage.getItem('user'));
+           this.useUserInfo(user.id);
         }
     },
 
@@ -266,7 +267,8 @@ export default {
                 if(response.statusText === "No Content")
                 {
                     this.responseUserInfo = true;
-                    this.userInfo.IdUser = this.$session.get('user').id
+                    var user = JSON.parse(localStorage.getItem('user'));
+                    this.userInfo.IdUser = user.id;
                 }
                 else
                 {
@@ -425,8 +427,10 @@ export default {
 
             var dateString = year + "-" +(month + 1) + "-" + day;
 
+            var user = JSON.parse(localStorage.getItem('user'));
+
             var postOrderData = {
-                userInfoId: this.$session.get('user').id,
+                userInfoId: user.id,
                 cartId: this.cartItems[0].cartId,
                 dateOrder: dateString
             };

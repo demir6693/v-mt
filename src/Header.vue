@@ -40,6 +40,7 @@
                 <span class="navbar-toggler-icon" wfd-id="461"></span>
             </button>
 
+            <!-- login -->
             <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453" v-if="loginBool">
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
                <li class="nav-item active">
@@ -71,7 +72,7 @@
                                     <div class="col-2"></div>
                                     <div class="col-4">
                                     <router-link to="/checkout">
-                                        <button class="btn btn-primary">Idi na kasu</button>
+                                        <button class="btn btn-primary">Vidi korpu</button>
                                     </router-link>
                                     </div>
                                     <div class="col-6">
@@ -89,6 +90,8 @@
                 </li>
                 </ul>
             </div>
+
+            <!-- not login -->
             <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453" v-else>
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
                <li class="nav-item active">
@@ -101,7 +104,7 @@
                             <span><i class="fas fa-shopping-cart fa-2x" id="cartIcon"></i></span>
                             <div class="dropdown-content" id="dropDownCart">
                             
-                                <ul class="list-group" style="list-style-type:none;" v-for="prod in freeCartData">
+                                <ul class="list-group" style="list-style-type:none;" v-for="(prod, index) in freeCartData">
                                     <li class="border-bottom">
                                         <div class="row">
                                             <div class="col-7">
@@ -111,7 +114,7 @@
                                                 {{ prod.price + ' din'}}
                                             </div>
                                             <div class="col-2">
-                                                <button type="button" class="btn btn-danger" wfd-id="541">X</button>
+                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeItemFreeCart(index)">X</button>
                                             </div>
                                         </div>
                                     </li>
@@ -120,12 +123,12 @@
                                 <div class="row">
                                     <div class="col-2"></div>
                                     <div class="col-4">
-                                    <router-link to="/checkout">
-                                        <button class="btn btn-primary">Idi na kasu</button>
+                                    <router-link to="/login">
+                                        <button class="btn btn-primary">Vidi korpu</button>
                                     </router-link>
                                     </div>
                                     <div class="col-6">
-                                        Ukupno: 0 din
+                                        Ukupno: {{sumFreeCart}} din
                                     </div>
                                 </div>
                                 
@@ -136,7 +139,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <router-link to="/moj-nalog"><a class="nav-link">Registruj se</a></router-link>
+                    <router-link to="/registracija"><a class="nav-link">Registruj se</a></router-link>
                 </li>
                 </ul>
             </div>
@@ -196,7 +199,9 @@ export default {
         cartItems: {},
         checkCart: Function,
         cartSumPrice: 0,
-        freeCartData: []
+        freeCartData: [],
+        sumFreeCart: Number,
+        removeItemFreeCart: Function
     },
 
     data(){
@@ -212,6 +217,7 @@ export default {
             $("#dropDownCart").toggle();
             });
         });
+
     },
 
     computed: {

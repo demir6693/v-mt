@@ -98,7 +98,7 @@ export default {
             else
             {
                 var freeCart = JSON.parse(localStorage.getItem("freeCart"));
-                //freeCart.itemsId.push(idProd);
+                
                 var product = {
                     idProd: idProd,
                     quant: 1
@@ -107,6 +107,8 @@ export default {
                 freeCart.push(product);
 
                 localStorage.setItem("freeCart", JSON.stringify(freeCart));
+                
+                this.checkCartCount();
             }
                
         },

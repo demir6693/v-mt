@@ -28,6 +28,10 @@
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-xs" @click="validationInput">Uloguj se</button>
+                    <br>
+                    <router-link to="./registracija">
+                        <i class="pointer">Registruj se</i>
+                    </router-link>
                 </div>
 
                 <hr>
@@ -67,6 +71,9 @@ export default {
                 password: false
             }
         }
+    },
+
+    mounted(){
     },
 
     methods: {
@@ -126,8 +133,6 @@ export default {
                     this.userEmailData.email = response.body[0]['email'];
                     this.useCartUserById(this.userEmailData.id);
                     localStorage.setItem('user', JSON.stringify(this.userEmailData));
-
-                    localStorage.removeItem("freeCart");
                 }
                 else
                 {
@@ -150,15 +155,53 @@ export default {
             .then(response => {
                 localStorage.setItem('cartUser', JSON.stringify(response.body[0]))
                 router.push({ name: 'Home'});
-                location.reload();
+                this.moveToUserCart();
             }, error => {
                 console.log(error);
             })
         },
 
         moveToUserCart: function()
-        {
+        {   
             
+            var freeCartItems = JSON.parse(localStorage.getItem("freeCart"));
+            var userCart = JSON.parse(localStorage.getItem("cartUser"));
+            if(localStorage.freeCart)
+            {
+                if(freeCartItems.length > 0)
+                {
+                freeCartItems.forEach((element, index) => {
+
+                    var postDataCart = {
+                        productId: element.idProd,
+                        cartId: userCart.id,
+                        kolicina: 1
+                    }; 
+               
+                
+                this.$http.post("http://localhost:5000/api/cartitems/", postDataCart)
+                .then(response => {
+                    index++;
+                    if(freeCartItems.length == index)
+                    {
+                        localStorage.removeItem("freeCart");
+                        location.reload();
+                    }
+                }, error => {
+                    console.log(error);
+                }); 
+                  
+                });
+                }
+                else
+                {
+                    location.reload();
+                }
+            }
+            else
+            {
+                location.reload();
+            }
         }
     }
 }
@@ -177,5 +220,9 @@ export default {
 
 #wrongLogin{
     display: none;
+}
+
+.pointer{
+    cursor: pointer;
 }
 </style>
