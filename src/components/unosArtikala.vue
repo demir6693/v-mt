@@ -243,20 +243,25 @@ export default {
     },
     
     mounted() {
-
-        this.$http.get("http://localhost:5000/api/groups/")
-        .then(response => {
-            this.group = response.body;
-        });
-
-        this.$http.get("http://localhost:5000/api/brand/")
-        .then(response => {
-            this.brand = response.body;
-        });
-       
+        this.getBrand();
+        this.getGroups();
     },
 
     methods: {
+
+        getBrand: function(){
+            this.$http.get("http://localhost:5000/api/brand/")
+            .then(response => {
+                this.brand = response.body;
+            });
+        },
+
+        getGroups: function(){
+            this.$http.get("http://localhost:5000/api/groups/")
+            .then(response => {
+                this.group = response.body;
+            });
+        },
 
         ShowSpecsPic:function() {
             $(document).ready(function(){
@@ -304,11 +309,7 @@ export default {
 
         addNew:function(){
             this.HideSpecsPic();
-            this.productInput.name = '';
-            this.productInput.price = '';
-            this.productInput.msrp = '';
-            this.productInput.groupId = 0;
-            this.productInput.brandId = 0;
+            this.productInput = [];
         },
 
         addBrand() {
@@ -316,6 +317,9 @@ export default {
             .then(response => {
                 this.responseBrand = response;
                 this.connectBrandWithGroup();
+
+                this.getBrand();
+                this.getGroups();
             }, error => {
                 console.log(error);
             }); 
@@ -325,6 +329,7 @@ export default {
             this.$http.post("http://localhost:5000/api/groups/", this.groupInput)
             .then(response => {
                this.groupInput.name = '';
+               this.getGroups();
             }, error => {
                 console.log(error);
             });
