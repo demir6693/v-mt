@@ -43,7 +43,7 @@
 
                 </div>
                 <div class="col-8">
-                  <p class="titleProd">
+                  <p class="titleProd" @click="goToProduct(prod.id)">
                     <!-- naslov -->
                     {{ prod.brand.name + ' ' + prod.name }}
                   </p>
@@ -240,6 +240,7 @@ export default {
 .titleProd{
   margin-bottom: 10%; 
   height: 7em;
+  cursor: pointer;
 }
 
 .priceAndButton{

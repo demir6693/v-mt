@@ -44,7 +44,7 @@
             <div class="collapse navbar-collapse" id="navbarColor01" wfd-id="453" v-if="loginBool">
                 <ul class="navbar-nav mx-md-auto" wfd-id="455">
                <li class="nav-item active">
-                    <router-link to="/login"><a class="nav-link active"><b>{{ userData.email }}</b></a></router-link>
+                    <router-link to="/korisnik-info"><a class="nav-link active"><b>{{ userData.email }}</b></a></router-link>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link">
@@ -62,7 +62,7 @@
                                                 {{ cartProd.product.price + ' din'}}
                                             </div>
                                             <div class="col-2">
-                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(cartProd.id)">X</button>
+                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(cartProd.id)">Ukloni</button>
                                             </div>
                                         </div>
                                     </li>
@@ -114,7 +114,7 @@
                                                 {{ prod.price + ' din'}}
                                             </div>
                                             <div class="col-2">
-                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeItemFreeCart(index)">X</button>
+                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeItemFreeCart(index)">Ukloni</button>
                                             </div>
                                         </div>
                                     </li>
@@ -363,7 +363,7 @@ export default {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 500px;
+  min-width: 550px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 12px 16px;
   z-index: 1;

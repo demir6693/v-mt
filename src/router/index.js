@@ -11,6 +11,7 @@ import login from '@/components/login'
 import checkout from '@/components/checkout'
 import checkoutorders from '@/components/checkoutorders'
 import receipt from '@/components/receipt'
+import editUserInfo from '@/components/editUserInfo'
 
 Vue.use(Router)
 
@@ -72,6 +73,11 @@ export default new Router({
       path: '/lista-racuna',
       name: 'lista-racuna',
       component: receipt
+    },
+    {
+      path: '/korisnik-info',
+      name: 'korisnik-info',
+      component: editUserInfo
     }
   ]
 })
