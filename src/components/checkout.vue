@@ -4,6 +4,7 @@
         <h3>Lista proizvoda</h3>
         <hr>
         <div class="list-prod" id="lsProd">
+        <div class="table-responsive">
             <table class="table table-striped">
                 <tbody>
                     <tr>
@@ -16,14 +17,15 @@
                         <th scope="row">{{ ++index }}</th>
                         <td>{{ items.product.name }}</td>
                         <td>{{ items.product.price }} din</td>
-                        <td><button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(items.id)">X</button></td>
+                        <td><button type="button" class="btn btn-danger" wfd-id="541" @click="removeItemFromCart(items.id)">X</button></td>
                     </tr>
                 </tbody>
-        </table>
+            </table>
+        </div>
         <hr>
         <div class="row">
-            <div class="col-10"></div>
-            <div class="col-2">
+            <div class="col-7"></div>
+            <div class="col-5">
                 <button type="button" class="btn btn-primary" wfd-id="563" @click="showUserInfo">Idi na kasu</button>
             </div>
         </div>
@@ -80,7 +82,7 @@
                 <div class="row">
                     <div class="col-10"></div>
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary" wfd-id="563" @click="showCheckOrder">Dalje</button>
+                        <button type="button" class="btn btn-primary" wfd-id="563" id="56" @click="showCheckOrder">Dalje</button>
                     </div>
                 </div>
 
@@ -93,8 +95,9 @@
         <h3>Potvrda porudžbine</h3>
         <hr>
         <div class="check-order" id="checkOrder">
+            <div class="table-responsive">
             <div class="row">
-                <div class="col-5 border-right" style="background-color: white;">
+                <div class="col-4 border-right" style="background-color: white;">
                     <ul style="list-style: none;">
                         <li>
                             <p class="infoOrder">
@@ -148,16 +151,17 @@
                         <hr>
                     </ul>
                 </div>
-                <div class="col-2" style="background-color: white;">
+                <div class="col-3" style="background-color: white;">
                     Ukupno za naplatu: <strong><p class="infoOrder">{{ sumCart }} din</p></strong>
                 </div>
             </div>
+            </div>
             <div class="row">
-                    <div class="col-10"></div>
-                    <div class="col-2">
+                    <div class="col-7"></div>
+                    <div class="col-4">
                         <button type="button" class="btn btn-primary btn-lg" wfd-id="563" style="margin: 10%;" @click="postOrder">Potvrda</button>
                     </div>
-                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -168,7 +172,7 @@ import router from '../router'
 export default {
     props: {
         cartItems: {},
-        checkCart: Function
+        removeItemFromCart: Function
     },
 
     data(){
@@ -501,5 +505,6 @@ export default {
 
 .infoOrder{
     font-size: 16pt;
+    word-wrap: break-word;
 }
 </style>

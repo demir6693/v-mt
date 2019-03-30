@@ -14,13 +14,30 @@
                     </a>
                     </router-link>
                 </div>
-                <div class="col-2 mycol-2">    
-                    <button type="button" class="btn button-header" wfd-id="543" id="loginUser">
-                        <i class="fas fa-user"></i>
-                    </button>
+                <div class="col-2 mycol-2">
+                    <div v-if="loginBool">
+                        <div class="btn-group">
+                            <button type="button" class="btn button-header" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
+                                <router-link to="/korisnik-info">
+                                    <button class="dropdown-item" type="button">Moj nalog</button>
+                                </router-link>
+                                <button class="dropdown-item" type="button" @click="logOut">Izloguj se</button>
+                            </div>
+                            </div>
+                    </div>
+                    <div v-else>
+                        <router-link to="/login">
+                        <button type="button" class="btn button-header" wfd-id="543" id="loginUser">
+                            <i class="fas fa-user"></i>
+                        </button>
+                    </router-link>
+                    </div>
                 </div>
                 <div class="col-2 mycol-2">
-                    <button type="button" class="btn button-header" wfd-id="543" id="cartId">
+                    <button type="button" class="btn button-header" wfd-id="543" id="cartId" @click="showBrandDialog">
                         <i class="fas fa-shopping-cart"></i>
                     </button>
                 </div>
@@ -57,21 +74,6 @@
                 </li>
             </ul>
         </div>
-        <div id="loginForm">
-            <br>
-            <form class="form" id="login-nav">
-                <div class="form-group">
-                        <input type="email" class="form-control" id="emailId" placeholder="Email adresa" >
-                </div>
-                <div class="form-group">
-                        <input type="password" class="form-control" id="passId" placeholder="Šifra" >
-                        <!--<div class="help-block text-right"><a href="">Forget the password ?</a></div> -->
-                </div>
-                <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block my-btn">Uloguj se</button>
-                </div>
-            </form>
-        </div>
     </div>
     <br>
     <div class="container">
@@ -80,27 +82,138 @@
             </div>
     </div>
     <br>
+
+    <modal name="cart-items" adaptive="true" height="auto">
+        <div v-if="loginBool">
+            <div v-if="lenghtCart">
+                <div class="table-responsive">
+                <table class="table">
+                <thead>
+                    <tr class="table-active">
+                    <th scope="col">R. br.</th>
+                    <th scope="col">Naziv artikla</th>
+                    <th scope="col">Količina</th>
+                    <th scope="col">Cena</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(items, index) in cartItems" :value="countCart += items.product.price">
+                    <th scope="row">{{ ++index }}.</th>
+                        <td>{{ items.product.name.substring(0, 12) + "..."}}</td>
+                        <td>1</td>
+                        <td>{{ items.product.price  + " din"}}</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr class="table-active">
+                    <td></td>
+                    <td>Ukupno:</td>
+                    <td>
+                        {{countCart}} din
+                    </td>
+                    <td>
+                        <p style="display: none;">
+                            {{ countCart = 0 }}
+                        </p>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <router-link to="/checkout">
+                        <button class="btn btn-primary" @click="hideBrandDialog">Vidi korpu</button>
+                    </router-link>
+                </div>
+            </div>
+            </div>
+            <div v-else>
+                <h4>Korpa je prazna</h4>
+            </div>
+            <br>
+        </div>
+        <div v-else>
+            <div class="table-responsive">
+                <table class="table">
+                <thead>
+                    <tr class="table-active">
+                    <th scope="col">R. br.</th>
+                    <th scope="col">Naziv artikla</th>
+                    <th scope="col">Količina</th>
+                    <th scope="col">Cena</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(items, index) in freeCartData" :value="countCart += items.price">
+                    <th scope="row">{{ ++index }}.</th>
+                        <td>{{ items.name.substring(0, 12) + "..." }}</td>
+                        <td>1</td>
+                        <td>{{ items.price + " din"}}</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr class="table-active">
+                    <td></td>
+                    <td>Ukupno:</td>
+                    <td>
+                        {{countCart}} din
+                    </td>
+                    <td>
+                        <p style="display: none;">
+                            {{ countCart = 0 }}
+                        </p>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-primary">Vidi korpu</button>
+                </div>
+            </div>
+            <br>
+        </div>
+    </modal>
+
 </div>
 </template>
 
 <script>
 export default {
-    props: ['grp'],
+    props: {
+        grp: {},
+        loginBool: Boolean,
+        userData: {},
+        cartItems: {},
+        checkCart: Function,
+        cartSumPrice: 0,
+        freeCartData: [],
+        sumFreeCart: Number,
+        removeItemFreeCart: Function,
+        lenghtCart: Boolean
+    },
+
+    data(){
+        return{
+            countCart: 0
+        }
+    },
 
     mounted() { 
         $(document).ready(function(){
             $("#mbtown").click(function(){
                 $("#panelItems").slideToggle("slow");
-                $("#loginForm").slideUp();
             });
         });
 
-        $(document).ready(function(){
-            $("#loginUser").click(function(){
-                $("#loginForm").slideToggle("slow");
-                $("#panelItems").slideUp();
-            });
-        });
 
         $(document).ready(function(){
             $("#idUp").click(function(){
@@ -113,8 +226,22 @@ export default {
         slideUpMenu: function(){
             $(document).ready(function(){
                 $("#panelItems").slideUp();
-                $("#loginForm").slideUp();
             });
+        },
+
+        showBrandDialog(){
+            this.$modal.show('cart-items');
+        },
+
+        hideBrandDialog(){
+            this.$modal.hide('cart-items');
+        },
+
+        logOut: function(){
+            localStorage.removeItem('user');
+            localStorage.removeItem('cartUser');
+            this.loginBool = false;
+            location.reload();
         }
     }
 }
@@ -196,4 +323,7 @@ export default {
     color: white;
 }
 
+.title-cart-item{
+    word-wrap: break-word;
+}
 </style>

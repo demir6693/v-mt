@@ -1,5 +1,5 @@
 <template>
-    <div> 
+    <div class="container"> 
         <div id="regInfo">
             <h3>Izmeni korisničke podatke</h3>
             <div class="form-group" wfd-id="358">

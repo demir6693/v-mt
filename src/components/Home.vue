@@ -29,7 +29,7 @@
         <div class="homePc d-none d-lg-block">
           <div v-for="(group, item) in homeData">
           
-          <h5>{{ item }}</h5>
+          <h5 class="title-home-prod">{{ item }}</h5>
           <hr>
           <div class="row" >
           
@@ -276,5 +276,9 @@ export default {
 
 .price-mob{
   color: red;
+}
+
+.title-home-prod{
+  word-wrap: break-word;
 }
 </style>

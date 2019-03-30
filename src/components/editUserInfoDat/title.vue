@@ -1,12 +1,14 @@
 <template>
-    <div>
+    <div class="container">
         <h3>Kontrolni panel</h3>
         <strong>Dobrodošli, {{userInfo.fName + " " + userInfo.lName}}!</strong>
         <p>Ovde možete da pregledate Vaše nedavne aktivnosti i da menjate korisničke podatke.</p>
 
         <h5>Nedavne narudžbine</h5>
         <hr>
-        <table class="table table-hover">
+      
+        <div class="table-responsive">
+            <table class="table table-hover">
             <thead>
                 <tr class="table-active">
                 <th scope="col">Narudžbina broj</th>
@@ -26,13 +28,16 @@
                 </tr>
             </tbody>
         </table>
+        </div>
+           
+        
 
         <br>
 
         <h3>Korisnički podaci</h3>
         <hr>
         <div class="row">
-            <div class="col-5">
+            <div class="col-6">
             <strong>Kontakt informacije</strong>
                 <div class="div-user-info">
                     <p class="infoText">{{userInfo.fName + " " + userInfo.lName}}</p>
@@ -86,6 +91,7 @@ export default {
 
 .infoText{
     margin-bottom: 0%;
+    word-wrap: break-word;
 }
 
 .div-user-info{

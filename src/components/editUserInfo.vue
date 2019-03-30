@@ -1,24 +1,46 @@
 <template>
     <div class="container">
-        <hr>
-        <div class="row">
-            <div class="col-3">
-                <h3 class="my-acc-p" @click="showHideComponent(0)"><i class="fas fa-user"></i> Moj nalog</h3>
-                <hr>
-                <p class="my-acc-p" @click="showHideComponent(1)">
-                    <strong>KORISNIČKI PODACI</strong>
-                </p>
-                <p class="my-acc-p" @click="showHideComponent(2)">
-                <strong>MOJE NARUDŽBINE</strong>
-                </p>
-                <hr>
-            </div>
-            <div class="col-9">
-                <app-title id="0" :receiptData="getUserReceiptData" :userInfo="getUserInfoData"></app-title>
-                <app-userInfo :userInfo="getUserInfoData" id="1" class="compUser"></app-userInfo>
-                <app-cartInfo :receiptItems="receiptData" :receiptData="getUserReceiptData" id="2" class="compUser"></app-cartInfo>
-            </div>
+        <!-- on PC -->
+        <div class="d-none d-lg-block">
+            <div class="row">
+                <div class="col-3">
+                    <h3 class="my-acc-p" @click="showHideComponent(0)"><i class="fas fa-user"></i> Moj nalog</h3>
+                    <hr>
+                    <p class="my-acc-p" @click="showHideComponent(1)">
+                        <strong>KORISNIČKI PODACI</strong>
+                    </p>
+                    <p class="my-acc-p" @click="showHideComponent(2)">
+                    <strong>MOJE NARUDŽBINE</strong>
+                    </p>
+                    <hr>
+                </div>
+                <div class="col-9">
+                    <app-title id="0" :receiptData="getUserReceiptData" :userInfo="getUserInfoData"></app-title>
+                    <app-userInfo :userInfo="getUserInfoData" id="1" class="compUser"></app-userInfo>
+                    <app-cartInfo :receiptItems="receiptData" :receiptData="getUserReceiptData" id="2" class="compUser"></app-cartInfo>
+                </div>
+            </div> 
         </div>
+
+        <!-- on Mobile -->
+        <div class="d-block d-sm-none d-none d-sm-block d-md-none d-none d-md-block d-lg-none">
+            <div class="dropdown">
+                <button class="btn btn-primary btn-lg btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    KORISNIČKI PANEL
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <p class="dropdown-item" @click="showHideComponentOnMobile(4)">Moj nalog</p>
+                    <p class="dropdown-item" @click="showHideComponentOnMobile(5)">KORISNIČKI PODACI</p>
+                    <p class="dropdown-item" @click="showHideComponentOnMobile(6)">MOJE NARUDŽBINE</p>
+                </div>
+            </div>
+            <hr>
+            <app-title id="4" :receiptData="getUserReceiptData" :userInfo="getUserInfoData"></app-title>
+            <app-userInfo :userInfo="getUserInfoData" id="5" class="compUser"></app-userInfo>
+            <app-cartInfo :receiptItems="receiptData" :receiptData="getUserReceiptData" id="6" class="compUser"></app-cartInfo>
+        </div>
+
+        <hr>
         
         
 
@@ -74,6 +96,32 @@ export default {
                     $("#2").show();
                     $("#0").hide();
                     $("#1").hide();
+                }
+            });
+
+        },
+
+        showHideComponentOnMobile: function(idComp){
+            
+            $(document).ready(function(){
+                
+                if(idComp === 4)
+                {   
+                    $("#4").show();
+                    $("#5").hide();
+                    $("#6").hide();
+                }
+                else if(idComp === 5)
+                {   
+                    $("#5").show();
+                    $("#4").hide();
+                    $("#6").hide();
+                }
+                else if(idComp === 6)
+                {   
+                    $("#6").show();
+                    $("#4").hide();
+                    $("#5").hide();
                 }
             });
 

@@ -11,6 +11,7 @@
       :freeCartData="freeCartData"
       :sumFreeCart="sumFreeCart"
       :removeItemFreeCart="removeFromFreeCart"
+      :lenghtCart="lenghtCart"
       ></app-header>
     </div>
 
@@ -24,10 +25,11 @@
       :freeCartData="freeCartData"
       :sumFreeCart="sumFreeCart"
       :removeItemFreeCart="removeFromFreeCart"
+      :lenghtCart="lenghtCart"
       ></app-headerMobile>
     </div>
 
-    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :checkCart="getUserCartItems"></router-view>
+    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :checkCart="getUserCartItems" :removeItemFromCart="removeFromCart"></router-view>
     <app-footer></app-footer>
   </div>
 </template>
@@ -55,7 +57,8 @@ export default {
       userCartItems: {},
       freeCartData: [],
       sumFreeCart: 0,
-      countFreeCart: 0
+      countFreeCart: 0,
+      lenghtCart: Boolean
     }
   },
 
@@ -109,6 +112,14 @@ export default {
       this.$http.get("http://localhost:5000/api/cartitems/" + this.userCartData.id)
       .then(response => {
         this.userCartItems = response.body;
+        if(this.userCartItems.length > 0)
+        {
+          this.lenghtCart = true; 
+        }
+        else
+        {
+          this.lenghtCart = false;
+        }
       }, error => {
         console.log(error);
       });
@@ -152,6 +163,17 @@ export default {
     {
       var tmp = JSON.parse(localStorage.getItem("freeCart"));
       console.log(tmp);
+    },
+
+    removeFromCart: function(id){
+
+        this.$http.delete("http://localhost:5000/api/cartitems/" + id)
+        .then(response => {
+            console.log("Successful remove product from cart.");
+            this.getUserCartItems();
+        }, error =>{
+            console.log(error);
+        });
     }
   }
 
