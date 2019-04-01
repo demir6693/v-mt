@@ -29,7 +29,7 @@
       ></app-headerMobile>
     </div>
 
-    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :checkCart="getUserCartItems" :removeItemFromCart="removeFromCart"></router-view>
+    <router-view :checkCartCount="checkLoginUser" :cartItems="userCartItems" :removeItemFromCart="removeFromLocalCartItemsData"></router-view>
     <app-footer></app-footer>
   </div>
 </template>
@@ -174,6 +174,20 @@ export default {
         }, error =>{
             console.log(error);
         });
+    },
+
+    removeFromLocalCartItemsData: function(id){
+        
+        var tmp = [];
+        this.userCartItems.forEach(element => {
+            if(element.id != id)
+            {
+                tmp.push(element);
+            }
+        });
+
+        this.userCartItems = tmp;
+            
     }
   }
 

@@ -6,12 +6,14 @@ import lokacija from '@/components/lokacija'
 import regLog from '@/components/regLog'
 import kategorije from '@/components/kategorije'
 import proizvod from '@/components/proizvod'
-import unosArtikala from '@/components/unosArtikala'
 import login from '@/components/login'
 import checkout from '@/components/checkout'
-import checkoutorders from '@/components/checkoutorders'
-import receipt from '@/components/receipt'
+import checkoutorders from '@/components/admin/checkoutorders'
+import receipt from '@/components/admin/receipt'
 import editUserInfo from '@/components/editUserInfo'
+import admin from '@/components/admin'
+import listaProizvoda from '@/components/admin/lista-proizvoda'
+import unosArtikala from '@/components/admin/unosArtikala'
 
 Vue.use(Router)
 
@@ -50,11 +52,6 @@ export default new Router({
       component: proizvod
     },
     {
-      path: '/addartikal',
-      name: 'unosArtikala',
-      component: unosArtikala
-    },
-    {
       path: '/login',
       name: 'login',
       component: login
@@ -78,6 +75,33 @@ export default new Router({
       path: '/korisnik-info',
       name: 'korisnik-info',
       component: editUserInfo
+    },
+    {
+      path: '/admin-panel',
+      name: 'admin-panel',
+      component: admin,
+      children: [
+        {
+          path: 'lista-proizvoda',
+          name: 'lista-proizvoda',
+          component: listaProizvoda
+        },
+        {
+          path: 'narudzbine',
+          name: 'narudzbine',
+          component: checkoutorders
+        },
+        {
+          path: 'dodaj-artikal',
+          name: 'dodaj-artikal',
+          component: unosArtikala
+        },
+        {
+          path: 'racuni',
+          name: 'racuni',
+          component: receipt
+        }
+      ]
     }
   ]
 })

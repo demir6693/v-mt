@@ -111,9 +111,7 @@ export default {
         deleteItemFromOrder: function(idItemsOrder){
             this.$http.delete("http://localhost:5000/api/orderitems/" + idItemsOrder)
             .then(response => {
-                this.orderItems = [];
-                this.checkCart();
-                this.getOrder();
+                location.reload();
             }, error => {
                 console.log(error);
             });
@@ -125,6 +123,7 @@ export default {
                 this.orderItems = [];
                 this.checkCart();
                 this.getOrder();
+                location.reload();
             }, error => {
                 console.log(error);
             })

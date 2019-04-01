@@ -241,10 +241,11 @@ export default {
   margin-bottom: 10%; 
   height: 7em;
   cursor: pointer;
+  word-wrap: break-word;
 }
 
 .priceAndButton{
-
+  
 }
 
 .details{

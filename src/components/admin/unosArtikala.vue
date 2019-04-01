@@ -201,7 +201,8 @@ export default {
                 msrp: '',
                 pictureId: 0,
                 groupId: 0,
-                brandId: 0
+                brandId: 0,
+                stanje: true
             },
 
             responseProdData: {

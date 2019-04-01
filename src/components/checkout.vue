@@ -13,11 +13,11 @@
                         <th scope="col">Cena</th>
                         <th scope="col">Izbriši</th>
                         </tr>
-                    <tr v-for="(items, index) in cartItems">
+                    <tr v-for="(items, index) in cartItemsTmp">
                         <th scope="row">{{ ++index }}</th>
                         <td>{{ items.product.name }}</td>
                         <td>{{ items.product.price }} din</td>
-                        <td><button type="button" class="btn btn-danger" wfd-id="541" @click="removeItemFromCart(items.id)">X</button></td>
+                        <td><button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(items.id)">X</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -200,7 +200,9 @@ export default {
                 grad: false,
                 postalCode: false,
                 brTelefona: false
-            }
+            },
+
+            cartItemsTmp: {}
         }
     },
 
@@ -210,6 +212,8 @@ export default {
            var user = JSON.parse(localStorage.getItem('user'));
            this.useUserInfo(user.id);
         }
+
+        this.getCartItemsUser();
     },
 
     computed: {
@@ -261,6 +265,41 @@ export default {
                 });
             }
             
+        },
+
+        getCartItemsUser: function(){
+            var cartUserTmp = JSON.parse(localStorage.getItem("cartUser"));
+            
+            this.$http.get("http://localhost:5000/api/cartitems/" + cartUserTmp.id)
+            .then(response => {
+                this.cartItemsTmp = response.body;
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        removeFromCart: function(id){
+
+            this.$http.delete("http://localhost:5000/api/cartitems/" + id)
+            .then(response => {
+                console.log("Successful remove product from cart.");
+                this.removeFromLocalCartItemsData(id);
+            }, error =>{
+                console.log(error);
+            });
+        },
+
+        removeFromLocalCartItemsData: function(id){
+            var tmp = [];
+            this.cartItemsTmp.forEach(element => {
+                if(element.id != id)
+                {
+                    tmp.push(element);
+                }
+            });
+
+            this.cartItemsTmp = tmp;
+            //this.removeItemFromCart(id);
         },
 
         useUserInfo: function(id)
