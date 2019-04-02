@@ -39,12 +39,15 @@
                     <div class="col-4">
                         <img v-bind:src="urlPic" alt="" class="titlePicture">
                         <br>
-                        <i class="fas fa-trash-alt fa-2x picture-icon"></i> | <i class="fas fa-exchange-alt fa-2x picture-icon"></i>
+                                <label for="2files" class="btn">
+                                    <i class="fas fa-exchange-alt fa-2x picture-icon"></i>
+                                </label>
+                                <input id="2files" style="visibility:hidden;" type="file" accept="image/*" @change="convertPicToBase64(1)">
                         <hr>
                         <div class="row">
                             <div class="col-3" v-for="picture in pictureSlide">
                                 <img v-bind:src="picture.picture" alt="..." class="img-thumbnail mini-picture">
-                                <i class="fas fa-trash-alt picture-icon" @click="deleteSlidePicture(picture.id)"></i> | <i class="fas fa-exchange-alt picture-icon"></i>
+                                <i class="fas fa-trash-alt picture-icon" @click="deleteSlidePicture(picture.id)"></i>
                             </div>
                             
                             <div class="col-3 add-picture">
@@ -52,12 +55,30 @@
                                     <i class="fas fa-plus fa-3x"></i>
                                     <p>Dodaj sliku</p>
                                 </label>
-                                <input id="files" style="visibility:hidden;" type="file" accept="image/*" @change="convertPicToBase64">                               
+                                <input id="files" style="visibility:hidden;" type="file" accept="image/*" @change="convertPicToBase64(2)">                               
                             </div>
 
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
+
+                        <div class="form-group" wfd-id="352">
+                            <label for="exampleSelect1" wfd-id="354">Grupa</label>
+                            <select class="form-control" id="exampleSelect1" v-model="groupofProd">
+                                <option v-for="group in selectedGroup">
+                                    {{ group.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" wfd-id="352">
+                            <label for="exampleSelect1" wfd-id="354">Brand</label>
+                            <select class="form-control" id="exampleSelect1" v-model="brandofProd">
+                                <option v-for="brand in selectedBrand">
+                                    {{ brand.name }}
+                                </option>
+                            </select>
+                        </div>
 
                         <div class="form-group" wfd-id="318">
                             <label class="col-form-label" for="inputDefault" wfd-id="319">Naziv artikla</label>
@@ -76,14 +97,14 @@
 
                         <div class="form-check" wfd-id="337">
                             <label class="form-check-label" wfd-id="338">
-                            <input class="form-check-input" type="checkbox" value="" checked="" wfd-id="503">
-                            Na stanju
+                            <input class="form-check-input" type="checkbox" value="false" checked="false" wfd-id="503" v-model="productItemsForChange.stanje">
+                                Na stanju
                             </label>
                         </div>
 
                         <hr>
 
-                        <button class="btn btn-primary btn-lg">
+                        <button class="btn btn-primary btn-lg" @click="editProduct">
                             Izmeni
                         </button>
                     </div>
@@ -97,6 +118,7 @@
                                 <th scope="col">Specifikacija</th>
                                 <th scope="col">Opis spec.</th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,6 +131,11 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" @click="editSpecs(specs.id, specs.descriptionName, specs.description)"><i class="fas fa-upload"></i></button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click="removeSpecs(specs.id)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                                 </tr>
                             </tbody>
@@ -153,12 +180,18 @@ export default {
             addSpecs: {
                 descriptionName: '',
                 description: ''
-            }
+            },
+            selectedGroup: {},
+            selectedBrand: {},
+            groupofProd: '',
+            brandofProd: ''
         }
     },
 
     mounted() {
         this.getProduct();
+        this.getBrand();
+        this.getGroup();
     },
 
     methods: {
@@ -166,6 +199,24 @@ export default {
             this.$http.get("http://localhost:5000/api/product")
             .then(response => {
                 this.productItems = response.body;
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        getBrand: function(){
+            this.$http.get("http://localhost:5000/api/brand/")
+            .then(response => {
+                this.selectedBrand = response.body;
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        getGroup: function(){
+            this.$http.get("http://localhost:5000/api/groups/")
+            .then(response => {
+                this.selectedGroup = response.body;
             }, error => {
                 console.log(error);
             });
@@ -192,6 +243,9 @@ export default {
                this.getSpecsofProd(id);
                this.$modal.show('product');
                this.getPictureSlide(id);
+
+                this.groupofProd = this.productItemsForChange.group.name;
+                this.brandofProd = this.productItemsForChange.brand.name;
            }, error => {
                console.log(error);
            })
@@ -219,7 +273,8 @@ export default {
             });
         },
 
-        convertPicToBase64: function(picture){
+        convertPicToBase64: function(id){
+            
             var input = event.target;
          
             if (input.files && input.files[0]) {
@@ -230,12 +285,21 @@ export default {
           
                     var compressImg = LzString.compressToUTF16(e.target.result);
 
-                    var productImage = {
+                    if(id == 2)
+                    {
+                        var productImage = {
                         idProd: this.productItemsForChange.id,
                         picture: compressImg  
-                    }; 
-                        
-                    this.uploadImage(productImage);
+                        }; 
+                    
+                        this.uploadImage(productImage);
+                    }
+                    else if(id == 1)
+                    {
+                        this.changeTitleImage(compressImg);
+                        this.$modal.hide('product');
+                    }
+                    
                 } 
 
                 reader.readAsDataURL(input.files[0]);
@@ -249,6 +313,22 @@ export default {
             }, error => {
                 console.log(error);
             });
+        },
+
+        changeTitleImage: function(picture){
+            
+            var postData = {
+                id: this.productItemsForChange.id,
+                picture: picture
+            };
+
+            this.$http.put("http://localhost:5000/api/titlepictureproduct/" + postData.id, postData)
+            .then(response => {
+                this.showModalProduct(this.productItemsForChange.id);
+                this.$modal.show('product');
+            }, error => {
+                console.log(error);
+            })
         },
 
         deleteSlidePicture: function(id)
@@ -301,6 +381,47 @@ export default {
                 this.getSpecsofProd(this.productItemsForChange.id);
                 this.addSpecs.descriptionName = '';
                 this.addSpecs.description = '';
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        editProduct: function(){
+
+            var idGroup = 0;
+            this.selectedGroup.forEach(element => {
+                if(element.name == this.groupofProd)
+                {
+                    idGroup = element.id;
+                }
+
+            });
+
+            var idBrand = 0;
+            this.selectedBrand.forEach(element => {
+                if(element.name == this.brandofProd)
+                {
+                    idBrand = element.id;
+                }
+            });
+
+            this.productItemsForChange.groupId = idGroup;
+            this.productItemsForChange.brandId = idBrand;
+
+            this.$http.put("http://localhost:5000/api/product/" + this.productItemsForChange.id, this.productItemsForChange)
+            .then(response => {
+                console.log("Success edit");
+                this.getProduct();
+            }, error => {
+                console.log(error);
+            });
+        },
+
+        removeSpecs: function(id)
+        {
+            this.$http.delete("http://localhost:5000/api/productdescriptions/" + id)
+            .then(response => {
+                this.getSpecsofProd(this.productItemsForChange.id);
             }, error => {
                 console.log(error);
             });

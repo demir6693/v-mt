@@ -62,7 +62,7 @@
                                                 {{ cartProd.product.price + ' din'}}
                                             </div>
                                             <div class="col-2">
-                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(cartProd.id)">Ukloni</button>
+                                                <button type="button" class="btn btn-danger" wfd-id="541" @click="removeFromCart(cartProd.id)"><i class="fas fa-trash-alt"></i></button>
                                             </div>
                                         </div>
                                     </li>

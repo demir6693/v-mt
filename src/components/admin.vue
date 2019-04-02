@@ -16,7 +16,7 @@
             </div>
             <div class="col-3">
                 <router-link :to="{ name: 'narudzbine'}">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" wfd-id="557">Narudžbine (0)</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" wfd-id="557">Narudžbine ({{orders.length}})</button>
                 </router-link>
             </div>
             <div class="col-3">
@@ -37,7 +37,26 @@
 <script>
  
 export default {
+    data(){
+        return{
+            orders: {}
+        }
+    },
 
+    mounted(){
+        this.getOrders();
+    },
+
+    methods: {
+        getOrders: function(){
+            this.$http.get("http://localhost:5000/api/orders/")
+            .then(response => {
+                this.orders = response.body;
+            }, error => {
+                console.log(error);
+            });
+        }
+    }
 }
 </script>
 
